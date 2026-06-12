@@ -67,13 +67,16 @@ export default function HeroSection({ locale, promptInput, onTriggerPreset }: He
         className="w-full max-w-[850px] bg-white rounded-3xl border border-slate-200 shadow-xl p-5 mb-8 backdrop-blur"
       >
         <div className="flex flex-col gap-4">
-          <textarea
-            value={promptInput}
-            readOnly
-            tabIndex={-1}
-            className="w-full bg-transparent border-none resize-none text-base sm:text-lg text-slate-900 placeholder:text-slate-400 focus:ring-0 min-h-[95px] focus:outline-none cursor-default select-none"
-            placeholder={copy.placeholder}
-          />
+          <div className="relative">
+            {!promptInput && <span className="fake-caret" aria-hidden="true" />}
+            <textarea
+              value={promptInput}
+              readOnly
+              tabIndex={-1}
+              className="w-full bg-transparent border-none resize-none text-base sm:text-lg text-slate-900 placeholder:text-slate-400 focus:ring-0 min-h-[95px] focus:outline-none cursor-default select-none caret-transparent pl-3"
+              placeholder={copy.placeholder}
+            />
+          </div>
 
           <div className="flex items-center justify-between pt-4 border-t border-slate-100">
             <div className="flex items-center gap-3">

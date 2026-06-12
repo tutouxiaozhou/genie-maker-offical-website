@@ -21,14 +21,14 @@ export default function PricingSection({ locale }: PricingSectionProps) {
           {/* Column 1: Description */}
           <RevealItem className="p-8 flex flex-col justify-center bg-white rounded-2xl border border-slate-200 shadow-xs">
             <h3 className="text-3xl font-extrabold tracking-tight text-slate-900 mb-4">{copy.pricingTitle}</h3>
-            <p className="text-slate-500 text-[14.5px] leading-relaxed mb-6">{copy.pricingText}</p>
+            <p className="text-slate-500 text-sm leading-relaxed mb-6">{copy.pricingText}</p>
             <div className="text-xs text-slate-400 font-semibold uppercase tracking-widest flex items-center gap-1.5">
               <Check className="h-4 w-4 text-emerald-500" /> {copy.pricingHint}
             </div>
           </RevealItem>
 
           {/* Column 2: Free Tier */}
-          <RevealItem className="p-8 bg-white rounded-2xl border border-slate-200 hover:border-slate-350 transition-all shadow-xs flex flex-col relative overflow-hidden justify-between">
+          <RevealItem className="p-8 bg-white rounded-2xl border border-slate-200 hover:border-slate-300 transition-all shadow-xs flex flex-col relative overflow-hidden justify-between">
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#38BDF8]" />
             <div>
               <h4 className="text-lg font-bold text-slate-900 mb-1">{copy.freeTitle}</h4>
@@ -48,8 +48,8 @@ export default function PricingSection({ locale }: PricingSectionProps) {
           </RevealItem>
 
           {/* Column 3: Team Tier */}
-          <RevealItem className="p-8 bg-white rounded-2xl border border-slate-200 hover:border-slate-350 hover:shadow-lg transition-all shadow-sm flex flex-col relative overflow-hidden justify-between">
-            <div className="absolute top-3 right-3 bg-slate-900 text-white text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+          <RevealItem className="p-8 bg-white rounded-2xl border border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all shadow-sm flex flex-col relative overflow-hidden justify-between">
+            <div className="absolute top-3 right-3 bg-slate-900 text-white text-3xs font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
               {copy.popular}
             </div>
             <div>

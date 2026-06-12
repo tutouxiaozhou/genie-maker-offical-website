@@ -2,6 +2,10 @@
 
 @theme {
   --color-primary: #FF5E3A;
+  --color-accent-sky: #38BDF8;
+  --color-accent-purple: #C084FC;
+  --text-2xs: 10px;
+  --text-3xs: 9px;
   --font-sans: var(--font-sans), system-ui, sans-serif;
   --font-mono: var(--font-mono), monospace;
 }
@@ -13,4 +17,34 @@
 .hide-scrollbar {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+}
+
+/* Global focus-visible styles */
+:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary;
+}
+
+/* Reduced motion: disable continuous animations */
+@media (prefers-reduced-motion: reduce) {
+  .animate-ping,
+  .animate-bounce {
+    animation: none;
+  }
+}
+
+/* Reusable component classes */
+.card-surface {
+  @apply bg-white rounded-2xl border border-slate-200 shadow-xs;
+}
+
+.heading-section {
+  @apply text-3xl font-extrabold tracking-tight text-slate-900;
+}
+
+.section-container {
+  @apply max-w-6xl mx-auto px-4 sm:px-8;
+}
+
+.section-container-wide {
+  @apply max-w-7xl mx-auto px-4 sm:px-8;
 }

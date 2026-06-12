@@ -6,7 +6,7 @@ import { motion } from 'motion/react';
 export const revealEase: readonly [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 export const sectionReveal = {
-  hidden: { opacity: 0, y: 42, filter: "blur(10px)" },
+  hidden: { opacity: 0, y: 42, filter: "blur(4px)" },
   visible: {
     opacity: 1,
     y: 0,
@@ -21,7 +21,7 @@ export const sectionReveal = {
 };
 
 export const itemReveal = {
-  hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
+  hidden: { opacity: 0, y: 24, filter: "blur(4px)" },
   visible: {
     opacity: 1,
     y: 0,

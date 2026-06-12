@@ -39,7 +39,7 @@ export default function Header({
   }));
 
   return (
-    <header className="fixed top-5 left-1/2 -translate-x-1/2 w-[92%] max-w-7xl rounded-full border border-white/60 bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl shadow-md z-50 transition-all">
+    <header className="fixed top-5 left-1/2 -translate-x-1/2 w-[92%] max-w-7xl rounded-full border border-white/60 bg-white/40 backdrop-blur-xl shadow-md z-50 transition-all">
       <div className="flex justify-between items-center py-2.5 px-6">
 
         {/* Logo */}
@@ -68,7 +68,7 @@ export default function Header({
                 key={item.id}
                 href={`#${item.id}`}
                 onClick={(event) => scrollToSection(event, item.id)}
-                className={`relative rounded-full px-3.5 py-1.5 text-[13.5px] transition-colors ${
+                className={`relative rounded-full px-3.5 py-1.5 text-xs transition-colors ${
                   isActive ? 'text-slate-950' : 'text-slate-500 hover:text-primary'
                 }`}
               >
@@ -100,7 +100,7 @@ export default function Header({
           <a
             href="#demo"
             onClick={(event) => scrollToSection(event, 'demo')}
-            className="bg-slate-900 text-white text-[13px] font-semibold px-5 py-2 rounded-full hover:bg-slate-800 active:scale-95 transition-all shadow-sm hidden sm:inline-flex"
+            className="bg-slate-900 text-white text-xs font-semibold px-5 py-2 rounded-full hover:bg-slate-800 active:scale-95 transition-all shadow-sm hidden sm:inline-flex"
           >
             {copy.startCta}
           </a>

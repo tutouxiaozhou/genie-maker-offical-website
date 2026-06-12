@@ -24,7 +24,7 @@ export default function FinalCtaSection({ locale }: FinalCtaSectionProps) {
           {copy.finalTitle}
         </h2>
 
-        <p className="text-slate-450 text-sm sm:text-base text-slate-405 leading-relaxed max-w-lg mx-auto">
+        <p className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-lg mx-auto">
           {copy.finalText}
         </p>
 

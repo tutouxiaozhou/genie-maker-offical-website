@@ -29,7 +29,7 @@ export default function Footer({ locale }: FooterProps) {
         </div>
 
         {/* Links */}
-        <div className="flex flex-wrap items-center justify-center gap-6 text-[12.5px] text-slate-405">
+        <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400">
           <a href="#" className="hover:text-white transition-colors">{copy.privacy}</a>
           <a href="#" className="hover:text-white transition-colors">{copy.terms}</a>
           <a href="#" className="hover:text-white transition-colors">{copy.security}</a>
@@ -38,7 +38,7 @@ export default function Footer({ locale }: FooterProps) {
         </div>
 
         {/* Copyright */}
-        <div className="text-[11.5px] text-slate-500">
+        <div className="text-xs text-slate-500">
           &copy; {new Date().getFullYear()} Genie Maker. {copy.copyright}
         </div>
 

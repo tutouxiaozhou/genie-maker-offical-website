@@ -32,14 +32,14 @@ export default function FaqSection({ locale }: FaqSectionProps) {
         </RevealItem>
 
         {/* Right Accordion */}
-        <RevealItem className="lg:w-2/3 flex flex-col divide-y divide-slate-150">
+        <RevealItem className="lg:w-2/3 flex flex-col divide-y divide-slate-200">
           {faqItems.map((faq, idx) => {
             const isOpen = openFaqIndex === idx;
             return (
-              <div key={idx} className="py-4.5 transition-colors">
+              <div key={idx} className="py-[18px] transition-colors">
                 <button
                   onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                  className="w-full flex justify-between items-center text-left py-2 font-semibold text-[15.5px] text-slate-900 hover:text-primary transition-all group"
+                  className="w-full flex justify-between items-center text-left py-2 font-semibold text-base text-slate-900 hover:text-primary transition-all group"
                   aria-expanded={isOpen}
                 >
                   <span className="font-bold pr-4">{faq.question}</span>
@@ -57,7 +57,7 @@ export default function FaqSection({ locale }: FaqSectionProps) {
                       transition={{ duration: 0.25 }}
                       className="overflow-hidden"
                     >
-                      <p className="text-slate-550 text-[13.5px] leading-relaxed pt-2 pb-3 max-w-xl text-slate-600">
+                      <p className="text-slate-500 text-sm leading-relaxed pt-2 pb-3 max-w-xl text-slate-600">
                         {faq.answer}
                       </p>
                     </motion.div>

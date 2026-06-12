@@ -23,7 +23,7 @@ export default function FeatureSection02({ locale }: FeatureSection02Props) {
           <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-6 leading-tight">
             {copy.opsTitle}
           </h3>
-          <p className="text-slate-600 text-[14.5px] leading-relaxed mb-8 max-w-md">
+          <p className="text-slate-600 text-sm leading-relaxed mb-8 max-w-md">
             {copy.opsText}
           </p>
           <div className="flex gap-3">
@@ -49,11 +49,11 @@ export default function FeatureSection02({ locale }: FeatureSection02Props) {
                 </div>
                 <div>
                   <span className="block font-bold text-xs text-slate-900">{copy.registry}</span>
-                  <span className="text-[9px] text-slate-400 font-mono">v1.12-ready</span>
+                  <span className="text-3xs text-slate-400 font-mono">v1.12-ready</span>
                 </div>
               </div>
               <div className="flex flex-col items-end">
-                <span className="text-[9px] text-slate-400 font-mono uppercase font-bold text-teal-600">{copy.healthy}</span>
+                <span className="text-3xs text-slate-400 font-mono uppercase font-bold text-teal-600">{copy.healthy}</span>
                 <div className="flex gap-0.5 items-center h-2.5 mt-0.5 select-none">
                   <span className="w-1 h-2 bg-emerald-400 rounded-full" />
                   <span className="w-1 h-3 bg-emerald-400 rounded-full" />
@@ -66,7 +66,7 @@ export default function FeatureSection02({ locale }: FeatureSection02Props) {
             {/* Body Details */}
             <div className="space-y-3.5">
               <div>
-                <div className="flex justify-between items-center text-xs text-slate-650 font-medium mb-1">
+                <div className="flex justify-between items-center text-xs text-slate-600 font-medium mb-1">
                   <span>{copy.readiness}</span>
                   <span className="font-bold font-mono">99.98%</span>
                 </div>
@@ -90,7 +90,7 @@ export default function FeatureSection02({ locale }: FeatureSection02Props) {
                 <span className="flex items-center gap-1 text-slate-800">
                   <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" /> {copy.workflowActive}
                 </span>
-                <span className="text-slate-400 text-[10px] font-mono">{copy.reviewQueue}</span>
+                <span className="text-slate-400 text-2xs font-mono">{copy.reviewQueue}</span>
               </div>
             </div>
           </div>

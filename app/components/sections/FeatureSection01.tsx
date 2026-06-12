@@ -24,7 +24,7 @@ export default function FeatureSection01({ locale }: FeatureSection01Props) {
           <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-6 leading-tight">
             {copy.featureTitle}
           </h3>
-          <p className="text-slate-600 text-[14.5px] leading-relaxed mb-8 max-w-md">
+          <p className="text-slate-600 text-sm leading-relaxed mb-8 max-w-md">
             {copy.featureText}
           </p>
           <a
@@ -65,16 +65,16 @@ export default function FeatureSection01({ locale }: FeatureSection01Props) {
             {activeTabFeature === 'chat' && (
               <div className="space-y-4">
                 <div className="flex gap-2">
-                  <div className="w-5.5 h-5.5 rounded-full bg-slate-200 flex items-center justify-center text-[10px] font-bold">A</div>
+                  <div className="w-[22px] h-[22px] rounded-full bg-slate-200 flex items-center justify-center text-2xs font-bold">A</div>
                   <div className="bg-slate-100 rounded-xl p-2.5 max-w-[85%] text-xs">
-                    <p className="font-bold text-[9px] text-slate-500 mb-0.5">{copy.agentName}</p>
+                    <p className="font-bold text-3xs text-slate-500 mb-0.5">{copy.agentName}</p>
                     <p className="text-slate-700 leading-relaxed">{copy.agentLine}</p>
                   </div>
                 </div>
                 <div className="flex gap-2 flex-row-reverse">
-                  <div className="w-5.5 h-5.5 rounded-full bg-slate-900 text-white flex items-center justify-center text-[10.5px] font-bold">U</div>
+                  <div className="w-[22px] h-[22px] rounded-full bg-slate-900 text-white flex items-center justify-center text-[11px] font-bold">U</div>
                   <div className="bg-orange-50 border border-orange-100 rounded-xl p-2.5 max-w-[85%] text-xs text-right">
-                    <p className="font-bold text-[9px] text-orange-600 mb-0.5">{copy.you}</p>
+                    <p className="font-bold text-3xs text-orange-600 mb-0.5">{copy.you}</p>
                     <p className="text-slate-800 leading-relaxed text-left">{copy.userLine}</p>
                   </div>
                 </div>
@@ -84,10 +84,10 @@ export default function FeatureSection01({ locale }: FeatureSection01Props) {
             {/* Idea Tab active */}
             {activeTabFeature === 'idea' && (
               <div className="space-y-3">
-                <span className="text-[10px] bg-slate-100 text-indigo-700 font-bold px-2 py-0.5 rounded">{copy.conceptTag}</span>
+                <span className="text-2xs bg-slate-100 text-indigo-700 font-bold px-2 py-0.5 rounded">{copy.conceptTag}</span>
                 <h5 className="font-bold text-slate-900 text-sm">{copy.conceptTitle}</h5>
                 <p className="text-slate-500 text-xs leading-relaxed">{copy.conceptText}</p>
-                <div className="p-2 border border-dashed border-slate-200 rounded-lg bg-slate-50 font-mono text-[10px] text-slate-600">
+                <div className="p-2 border border-dashed border-slate-200 rounded-lg bg-slate-50 font-mono text-2xs text-slate-600">
                   if (trend.heat &gt; 80) createDraftFromAssets();
                 </div>
               </div>
@@ -96,7 +96,7 @@ export default function FeatureSection01({ locale }: FeatureSection01Props) {
             {/* Narration Tab active */}
             {activeTabFeature === 'narration' && (
               <div className="space-y-3">
-                <span className="text-[10px] bg-indigo-50 text-indigo-700 font-bold px-2 py-0.5 rounded">{copy.voiceTag}</span>
+                <span className="text-2xs bg-indigo-50 text-indigo-700 font-bold px-2 py-0.5 rounded">{copy.voiceTag}</span>
                 <h5 className="font-bold text-slate-900 text-sm">{copy.voiceTitle}</h5>
                 <p className="text-slate-500 text-xs leading-relaxed">{copy.voiceText}</p>
                 <div className="flex items-center gap-1 text-slate-400 text-xs font-semibold">

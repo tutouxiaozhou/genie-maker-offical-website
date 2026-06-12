@@ -44,7 +44,7 @@ export default function DemoSection({
     <motion.div
       ref={pipelineRef}
       id="demo"
-      initial={{ opacity: 0, y: 42, filter: 'blur(10px)' }}
+      initial={{ opacity: 0, y: 42, filter: 'blur(4px)' }}
       whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
       viewport={{ once: true, amount: 0.22, margin: '0px 0px -12% 0px' }}
       transition={{ duration: 0.82, ease: revealEase }}
@@ -63,7 +63,7 @@ export default function DemoSection({
         <RevealItem>
           <motion.div
             key={`${activeDemoId}-${demoRunKey}`}
-            initial={{ opacity: 0, y: 18, filter: 'blur(8px)' }}
+            initial={{ opacity: 0, y: 18, filter: 'blur(4px)' }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 0.55, ease: revealEase }}
             className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl"
@@ -104,7 +104,7 @@ export default function DemoSection({
                       {locale === 'zh' ? 'AI 创作会话' : 'AI creation session'}
                     </div>
                   </div>
-                  <span className="rounded-md bg-slate-100 px-2 py-1 text-[10px] font-bold text-slate-500">
+                  <span className="rounded-md bg-slate-100 px-2 py-1 text-2xs font-bold text-slate-500">
                     {demoComplete ? 'DONE' : 'LIVE'}
                   </span>
                 </div>
@@ -122,7 +122,7 @@ export default function DemoSection({
                       {activeDemo.userMessage}
                       <div className="mt-2 flex flex-wrap justify-end gap-1.5">
                         {activeDemo.materials.map((material) => (
-                          <span key={material} className="inline-flex rounded-md bg-white px-2 py-1 text-[10px] font-semibold text-slate-500 ring-1 ring-slate-200">
+                          <span key={material} className="inline-flex rounded-md bg-white px-2 py-1 text-2xs font-semibold text-slate-500 ring-1 ring-slate-200">
                             @{material}
                           </span>
                         ))}
@@ -212,7 +212,7 @@ export default function DemoSection({
                         className="mb-3 rounded-xl border border-slate-200 bg-slate-50 p-3"
                       >
                         <div className="mb-2 flex items-center justify-between">
-                          <div className="flex items-center gap-2 text-[13px] font-bold" style={{ color: demoAccent }}>
+                          <div className="flex items-center gap-2 text-xs font-bold" style={{ color: demoAccent }}>
                             <LayoutGrid className="h-4 w-4" />
                             {locale === 'zh' ? '任务进度' : 'Task progress'}
                           </div>
@@ -271,7 +271,7 @@ export default function DemoSection({
               <AnimatePresence mode="wait">
                 <motion.div
                   key={`workbench-${activeDemoId}-${demoRunKey}`}
-                  initial={{ x: 96, opacity: 0, filter: 'blur(8px)' }}
+                  initial={{ x: 96, opacity: 0, filter: 'blur(4px)' }}
                   animate={{
                     x: generationStage >= 3 ? 0 : 48,
                     opacity: generationStage >= 3 ? 1 : 0.38,

@@ -32,10 +32,10 @@ export default function HeroSection({ locale, promptInput, onTriggerPreset }: He
         transition={{ duration: 0.6 }}
         className="inline-flex items-center gap-2 bg-white/60 border border-slate-200/50 rounded-full px-4 py-1.5 mb-7 shadow-sm backdrop-blur"
       >
-        <span className="bg-orange-100 text-orange-600 font-bold text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full">
+        <span className="bg-orange-100 text-orange-600 font-bold text-2xs uppercase tracking-wider px-2 py-0.5 rounded-full">
           {copy.newBadge}
         </span>
-        <span className="text-[12.5px] font-semibold text-slate-700">
+        <span className="text-xs font-semibold text-slate-700">
           {copy.badge}
         </span>
       </motion.div>
@@ -94,7 +94,7 @@ export default function HeroSection({ locale, promptInput, onTriggerPreset }: He
           <button
             key={index}
             onClick={() => onTriggerPreset(preset)}
-            className="bg-white hover:bg-slate-100 text-slate-800 border border-slate-200/80 shadow-xs rounded-full px-4.5 py-1.5 text-[12.5px] font-medium hover:border-slate-300 active:scale-95 transition-all cursor-pointer select-none"
+            className="bg-white hover:bg-slate-100 text-slate-800 border border-slate-200/80 shadow-xs rounded-full px-[18px] py-1.5 text-xs font-medium hover:border-slate-300 active:scale-95 transition-all cursor-pointer select-none"
           >
             {preset.label}
           </button>

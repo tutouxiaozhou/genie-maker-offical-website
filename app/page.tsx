@@ -34,17 +34,18 @@ import {
   X
 } from 'lucide-react';
 
+type DemoPresetId = 'rewrite' | 'shortVideo' | 'trends';
+
 // Pre-defined suggestions for rapid testing
 const PRESETS = [
-  { label: "AI Content Studio", prompt: "Create a Xiaohongshu product note from brand assets, recent trends, and a clear publishing goal." },
-  { label: "Hotspot Tracker", prompt: "Track AI creator economy topics across platforms and turn signals into content angles." },
-  { label: "Material Library", prompt: "Organize product images, videos, documents, and copy snippets into a searchable creator library." },
-  { label: "Workflow Automation", prompt: "Build a content workflow that researches trends, drafts copy, saves assets, and prepares publishing." }
+  { id: 'rewrite' as const, label: "Rewrite materials", prompt: "Turn a product feature brief into a Xiaohongshu recommendation post." },
+  { id: 'shortVideo' as const, label: "Video script", prompt: "Create a 30-second Douyin voiceover script for a product recommendation." },
+  { id: 'trends' as const, label: "Trend breakdown", prompt: "Break down recent Xiaohongshu beauty topic patterns into content ideas." }
 ];
 
 // High-fidelity pre-rendered designs in case the live generation needs fallback
 const FALLBACK_DESIGNS: Record<string, any> = {
-  analytics: {
+  creation: {
     appName: "Genie Content Studio",
     appSubtitle: "AI-assisted ideation, copywriting, storyboard, and publishing prep",
     colorPalette: {
@@ -54,7 +55,7 @@ const FALLBACK_DESIGNS: Record<string, any> = {
     },
     keyFeatures: [
       {
-        title: "Cohort Tracking",
+        title: "Structured Creation",
         description: "Turn prompts, attachments, and saved assets into structured content drafts.",
         icon: "TrendingUp",
       },
@@ -88,7 +89,7 @@ const FALLBACK_DESIGNS: Record<string, any> = {
       { sender: "agent", message: "Saved the copy and image references with tags for later publishing." }
     ]
   },
-  banking: {
+  hotspots: {
     appName: "Genie Hotspot Radar",
     appSubtitle: "Cross-platform trend discovery and scheduled topic tracking",
     colorPalette: {
@@ -132,7 +133,7 @@ const FALLBACK_DESIGNS: Record<string, any> = {
       { sender: "agent", message: "Grouped repeated signals and prepared three creator-ready topic directions." }
     ]
   },
-  crm: {
+  assets: {
     appName: "Genie Asset Library",
     appSubtitle: "Structured image, video, document, and copy management for creators",
     colorPalette: {
@@ -176,7 +177,7 @@ const FALLBACK_DESIGNS: Record<string, any> = {
       { sender: "agent", message: "Saved the copy material with platform tags and source remarks." }
     ]
   },
-  inventory: {
+  workflow: {
     appName: "Genie Workflow Hub",
     appSubtitle: "Configurable research, creation, review, and publishing workflows",
     colorPalette: {
@@ -252,15 +253,199 @@ const FAQ_ITEMS = [
 type Locale = 'zh' | 'en';
 
 const PRESETS_ZH = [
-  { label: "AI 内容工作室", prompt: "基于品牌素材、近期热点和发布目标，生成一篇小红书产品笔记。" },
-  { label: "热点追踪", prompt: "追踪 AI 创作者经济相关话题，并把平台信号整理成内容选题。" },
-  { label: "素材库管理", prompt: "把产品图片、视频、文档和文案片段整理成可搜索的创作素材库。" },
-  { label: "工作流自动化", prompt: "配置一条完成热点研究、草稿生成、素材保存和发布准备的内容工作流。" }
+    {
+        id: 'rewrite' as const,
+        label: "素材改写为内容",
+        prompt: "帮我把产品功能介绍文档改写成一条小红书种草笔记",
+    },
+    {
+        id: 'shortVideo' as const,
+        label: "短视频脚本生成",
+        prompt: "帮我生成一条抖音口播视频脚本，主题是母婴好物推荐，时长 30 秒",
+    },
+    {
+        id: 'trends' as const,
+        label: "爆款选题拆解",
+        prompt: "帮我拆解最近 7 天小红书美妆类目的爆款封面和标题规律",
+    },
 ];
 
+type DemoScript = {
+  legacyKey: 'creation' | 'hotspots' | 'assets' | 'workflow';
+  title: string;
+  subtitle: string;
+  sessionTitle: string;
+  toolName: string;
+  userMessage: string;
+  materials: string[];
+  thinking: string[];
+  tasks: string[];
+  resultTitle: string;
+  resultMeta: string;
+  resultLines: string[];
+  tags: string[];
+  saveLabel: string;
+};
+
+const DEMO_SCRIPTS: Record<DemoPresetId, DemoScript> = {
+  rewrite: {
+    legacyKey: 'creation',
+    title: "Material rewrite demo",
+    subtitle: "A local animation that mirrors the real chat-to-workbench flow without calling the API.",
+    sessionTitle: "Product brief to Xiaohongshu note",
+    toolName: "Copywriting Workbench",
+    userMessage: "Turn this product feature brief into a Xiaohongshu recommendation post.",
+    materials: ["Feature brief.pdf", "Brand images x6", "Tone guide"],
+    thinking: [
+      "Reading product selling points and audience notes",
+      "Matching Xiaohongshu structure and conversational tone",
+      "Preparing hook, body copy, hashtags, and saveback metadata"
+    ],
+    tasks: ["Extract core benefits", "Adapt platform voice", "Generate publish-ready note"],
+    resultTitle: "Gentle daily-use product note",
+    resultMeta: "Xiaohongshu / soft recommendation / 420 words",
+    resultLines: [
+      "Title: I finally found a lightweight helper for busy content days",
+      "Hook: If your product docs are clear but not social-ready, this workflow turns them into a warmer story.",
+      "Body: Start with the pain point, fold in the strongest proof, then move toward a practical usage scene.",
+      "Hashtags: #contentworkflow #aicreation #xiaohongshu"
+    ],
+    tags: ["Copy", "Assets", "Saveback"],
+    saveLabel: "Save copy to library"
+  },
+  shortVideo: {
+    legacyKey: 'workflow',
+    title: "Short video script demo",
+    subtitle: "Show how a prompt becomes a structured voiceover and shot list inside the workbench.",
+    sessionTitle: "30-second Douyin script",
+    toolName: "Storyboard Workbench",
+    userMessage: "Create a 30-second Douyin voiceover script for a product recommendation.",
+    materials: ["Product photos", "Audience notes", "Selling points"],
+    thinking: [
+      "Splitting the brief into opening, proof, demo, and call-to-action",
+      "Balancing visual rhythm with spoken copy",
+      "Structuring shots, captions, and voiceover timing"
+    ],
+    tasks: ["Build script outline", "Write voiceover beats", "Attach shot directions"],
+    resultTitle: "30s voiceover storyboard",
+    resultMeta: "Douyin / product recommendation / 4 shots",
+    resultLines: [
+      "0-3s: Close-up hook, show the product in use. VO: 'This solved the tiny daily problem I kept ignoring.'",
+      "4-12s: Demonstrate the main benefit with one clear before/after contrast.",
+      "13-23s: Add proof, usage detail, and one memorable line for retention.",
+      "24-30s: End with a soft CTA and subtitle-friendly summary."
+    ],
+    tags: ["Storyboard", "Voiceover", "Captions"],
+    saveLabel: "Save script draft"
+  },
+  trends: {
+    legacyKey: 'hotspots',
+    title: "Trend breakdown demo",
+    subtitle: "Show the product's trend reasoning path and final topic matrix as a local animation.",
+    sessionTitle: "Beauty topic pattern analysis",
+    toolName: "Topic Strategy Workbench",
+    userMessage: "Break down recent Xiaohongshu beauty topic patterns into content ideas.",
+    materials: ["7-day hot list", "Cover examples", "Title samples"],
+    thinking: [
+      "Grouping repeated cover and title signals",
+      "Separating short-lived buzz from reusable topic patterns",
+      "Turning patterns into publishable angles for creators"
+    ],
+    tasks: ["Cluster hot signals", "Extract title formulas", "Create topic matrix"],
+    resultTitle: "Reusable topic matrix",
+    resultMeta: "Xiaohongshu / beauty / 6 content angles",
+    resultLines: [
+      "Pattern 1: 'Before I knew X...' titles work best when paired with close-up texture covers.",
+      "Pattern 2: Ingredient-led posts convert better when the first screen names a specific use case.",
+      "Angle: 'Commute makeup rescue kit' with three proof points and one measurable benefit.",
+      "Angle: 'Beginner-friendly evening routine' framed around time saved, not product count."
+    ],
+    tags: ["Trend", "Titles", "Angles"],
+    saveLabel: "Save topic matrix"
+  }
+};
+
+const DEMO_SCRIPTS_ZH: Record<DemoPresetId, DemoScript> = {
+  rewrite: {
+    legacyKey: 'creation',
+    title: "素材改写演示",
+    subtitle: "不调用接口，用本地动画模拟真实产品里的聊天流、任务进度和右侧产物工作台。",
+    sessionTitle: "产品资料改写为小红书笔记",
+    toolName: "文案工作台",
+    userMessage: "帮我把产品功能介绍文档改写成一条小红书种草笔记",
+    materials: ["产品功能介绍.docx", "品牌图片 6 张", "语气参考"],
+    thinking: [
+      "读取产品卖点、目标人群和使用场景",
+      "匹配小红书笔记结构与种草语气",
+      "整理开头钩子、正文段落、话题标签和素材回存信息"
+    ],
+    tasks: ["提取核心卖点", "适配平台语气", "生成可发布笔记"],
+    resultTitle: "小红书种草笔记草稿",
+    resultMeta: "小红书 / 轻种草 / 约 420 字",
+    resultLines: [
+      "标题：被这个 AI 创作工作台救了一次内容排期",
+      "开头：以前产品资料写得很完整，但一到发小红书就总觉得太像说明书。",
+      "正文：现在我会先把功能点、图片和目标人群丢进 Genie Maker，它会把卖点拆成更像真实体验的表达。",
+      "标签：#AI创作 #小红书运营 #素材改写 #内容工作流"
+    ],
+    tags: ["文案", "素材", "回存"],
+    saveLabel: "保存文案到素材库"
+  },
+  shortVideo: {
+    legacyKey: 'workflow',
+    title: "短视频脚本演示",
+    subtitle: "展示从需求到口播稿、镜头节奏和字幕提示的本地模拟生成过程。",
+    sessionTitle: "30 秒抖音口播脚本",
+    toolName: "分镜脚本工作台",
+    userMessage: "帮我生成一条抖音口播视频脚本，主题是母婴好物推荐，时长 30 秒",
+    materials: ["产品图片", "用户痛点", "卖点清单"],
+    thinking: [
+      "拆分 30 秒视频的开头、证明、演示和收尾节奏",
+      "把卖点转换成适合口播的短句",
+      "补充镜头画面、字幕重点和结尾行动引导"
+    ],
+    tasks: ["生成脚本结构", "编写口播节奏", "补充分镜与字幕"],
+    resultTitle: "30 秒口播分镜",
+    resultMeta: "抖音 / 母婴好物 / 4 个镜头",
+    resultLines: [
+      "0-3s：宝宝用品桌面近景。口播：'新手爸妈最怕的不是东西多，是每次都找不到顺手的。'",
+      "4-12s：展示产品核心功能，画面对比使用前后的差异。",
+      "13-23s：补充安全感和省心细节，字幕突出'一拿就用'、'清洁方便'。",
+      "24-30s：收尾推荐语，给出适合人群和轻 CTA。"
+    ],
+    tags: ["脚本", "口播", "分镜"],
+    saveLabel: "保存脚本草稿"
+  },
+  trends: {
+    legacyKey: 'hotspots',
+    title: "爆款选题拆解演示",
+    subtitle: "模拟真实产品把热点信号、封面标题规律和可执行选题整理成工作台产物。",
+    sessionTitle: "美妆爆款选题拆解",
+    toolName: "选题策略工作台",
+    userMessage: "帮我拆解最近 7 天小红书美妆类目的爆款封面和标题规律",
+    materials: ["7 日热榜", "封面样例", "标题样本"],
+    thinking: [
+      "聚类近 7 天反复出现的封面与标题信号",
+      "区分短期热词和可复用内容模式",
+      "把规律转成创作者可以直接使用的选题角度"
+    ],
+    tasks: ["聚合热点信号", "提炼标题公式", "输出选题矩阵"],
+    resultTitle: "可复用选题矩阵",
+    resultMeta: "小红书 / 美妆类目 / 6 个方向",
+    resultLines: [
+      "规律 1：'早知道就...' 类标题更适合搭配强对比封面。",
+      "规律 2：成分党内容需要在首屏直接点出使用场景，而不是先堆参数。",
+      "选题：通勤补妆急救包，用 3 个场景证明产品价值。",
+      "选题：新手晚间护肤流程，围绕'省时间'而不是'产品数量'展开。"
+    ],
+    tags: ["热点", "标题", "选题"],
+    saveLabel: "保存选题矩阵"
+  }
+};
+
 const FALLBACK_DESIGNS_ZH: Record<string, any> = {
-  analytics: {
-    ...FALLBACK_DESIGNS.analytics,
+  creation: {
+    ...FALLBACK_DESIGNS.creation,
     appName: "Genie 内容工作室",
     appSubtitle: "AI 辅助选题、文案、分镜和发布准备",
     keyFeatures: [
@@ -279,8 +464,8 @@ const FALLBACK_DESIGNS_ZH: Record<string, any> = {
       { sender: "agent", message: "已按标签保存文案和图片引用，后续发布可直接复用。" }
     ]
   },
-  banking: {
-    ...FALLBACK_DESIGNS.banking,
+  hotspots: {
+    ...FALLBACK_DESIGNS.hotspots,
     appName: "Genie 热点雷达",
     appSubtitle: "跨平台热点发现与定时话题追踪",
     keyFeatures: [
@@ -299,8 +484,8 @@ const FALLBACK_DESIGNS_ZH: Record<string, any> = {
       { sender: "agent", message: "已聚合重复信号，并整理出三个适合创作的选题方向。" }
     ]
   },
-  crm: {
-    ...FALLBACK_DESIGNS.crm,
+  assets: {
+    ...FALLBACK_DESIGNS.assets,
     appName: "Genie 素材库",
     appSubtitle: "面向创作者的图片、视频、文档和文案管理",
     keyFeatures: [
@@ -319,8 +504,8 @@ const FALLBACK_DESIGNS_ZH: Record<string, any> = {
       { sender: "agent", message: "已保存文案素材，并带上平台标签和来源备注。" }
     ]
   },
-  inventory: {
-    ...FALLBACK_DESIGNS.inventory,
+  workflow: {
+    ...FALLBACK_DESIGNS.workflow,
     appName: "Genie 工作流中心",
     appSubtitle: "可配置的研究、创作、审核与发布工作流",
     keyFeatures: [
@@ -493,7 +678,7 @@ const UI_COPY = {
     badge: "AI 创作运营工作台",
     heroTitle: "用 Genie Maker 开始创作",
     heroSubtitle: "Genie Maker 帮内容团队把热点、素材和想法转成可发布的社媒内容，并沉淀到统一的 AI 创作工作台。",
-    placeholder: "描述你想创作的内容，例如：“把这份产品资料改写成一篇小红书笔记，开头要有强钩子...”",
+    placeholder: "描述你想创作的内容，例如：“把这份产品资料改写成一篇小红书笔记...”",
     languageLabel: "切换语言",
     newBadge: "最新",
     demoIdleTitle: "创作画布沙盒",
@@ -617,6 +802,77 @@ const UI_COPY = {
   }
 };
 
+const revealEase = [0.16, 1, 0.3, 1] as const;
+
+const sectionReveal = {
+  hidden: { opacity: 0, y: 42, filter: "blur(10px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.82,
+      ease: revealEase,
+      staggerChildren: 0.11,
+      delayChildren: 0.08,
+    },
+  },
+};
+
+const itemReveal = {
+  hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.72,
+      ease: revealEase,
+    },
+  },
+};
+
+const revealViewport = { once: true, amount: 0.22, margin: "0px 0px -12% 0px" };
+const navSectionIds = ['product', 'demo', 'features', 'pricing', 'faq'] as const;
+type NavSectionId = typeof navSectionIds[number];
+
+function RevealSection({
+  children,
+  className,
+  id,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  id?: string;
+}) {
+  return (
+    <motion.section
+      id={id}
+      variants={sectionReveal}
+      initial="hidden"
+      whileInView="visible"
+      viewport={revealViewport}
+      className={className}
+    >
+      {children}
+    </motion.section>
+  );
+}
+
+function RevealItem({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <motion.div variants={itemReveal} className={className}>
+      {children}
+    </motion.div>
+  );
+}
+
 export default function Page() {
   const [locale, setLocale] = useState<Locale>('zh');
   const copy = UI_COPY[locale];
@@ -629,93 +885,144 @@ export default function Page() {
 
   // Generation status and stages
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generationStage, setGenerationStage] = useState(0); // 0 = idle, 1 = loading API, 2 = edge compile, 3 = db migrations, 4 = live deployment
+  const [generationStage, setGenerationStage] = useState(4); // 1 = user brief, 2 = thinking, 3 = workbench streaming, 4 = completed
   const [generatedInfo, setGeneratedInfo] = useState<any | null>(null);
+  const [activeDemoId, setActiveDemoId] = useState<DemoPresetId>('rewrite');
+  const [demoRunKey, setDemoRunKey] = useState(0);
 
   // References and animation triggers
   const pipelineRef = useRef<HTMLDivElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeNavId, setActiveNavId] = useState<NavSectionId>('product');
 
-  // Interactive Features Tabs Section 
+  // Interactive Features Tabs Section
   const [activeTabFeature, setActiveTabFeature] = useState<'chat' | 'idea' | 'narration'>('chat');
-  
+
   // Interactive FAQs accordion state active IDs
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
+  const demoScripts = locale === 'zh' ? DEMO_SCRIPTS_ZH : DEMO_SCRIPTS;
+  const activeDemo = demoScripts[activeDemoId];
+  const activeLegacyInfo = generatedInfo ?? fallbackDesigns[activeDemo.legacyKey];
+  const demoAccent = activeLegacyInfo?.colorPalette?.primary || '#FF5E3A';
+
   // Tracking dynamic simulation timelines
   useEffect(() => {
-    if (!isGenerating) return;
+    if (demoRunKey === 0) return;
 
-    // Simulate generation pipeline milestones
     const timers: NodeJS.Timeout[] = [];
 
-    // Stage 1: Call Gemini & compile Edge (Takes ~1.5s)
-    timers.push(setTimeout(() => setGenerationStage(2), 1500));
-    // Stage 2: Provision database tables (Takes ~1.5s)
-    timers.push(setTimeout(() => setGenerationStage(3), 3000));
-    // Stage 3: CDN propagation and final live checks
-    timers.push(setTimeout(() => setGenerationStage(4), 4500));
+    timers.push(setTimeout(() => setGenerationStage(2), 700));
+    timers.push(setTimeout(() => setGenerationStage(3), 1650));
+    timers.push(setTimeout(() => {
+      setGenerationStage(4);
+      setIsGenerating(false);
+    }, 3200));
 
     return () => timers.forEach(clearTimeout);
-  }, [isGenerating]);
+  }, [demoRunKey, activeDemoId]);
 
-  // Execute actual or fallback generation
-  const handleGenerate = async (finalPromptText?: string) => {
+  useEffect(() => {
+    const updateActiveNav = () => {
+      const scrollAnchor = window.scrollY + 150;
+      const currentId = navSectionIds.reduce<NavSectionId>((activeId, sectionId) => {
+        const section = document.getElementById(sectionId);
+        if (!section) return activeId;
+
+        return section.offsetTop <= scrollAnchor ? sectionId : activeId;
+      }, 'product');
+
+      setActiveNavId(currentId);
+    };
+
+    updateActiveNav();
+    window.addEventListener('scroll', updateActiveNav, { passive: true });
+    return () => window.removeEventListener('scroll', updateActiveNav);
+  }, []);
+
+  const scrollToSection = (event: React.MouseEvent<HTMLAnchorElement>, sectionId: NavSectionId) => {
+    event.preventDefault();
+    setActiveNavId(sectionId);
+    setMobileMenuOpen(false);
+
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const headerOffset = sectionId === 'product' ? 0 : 96;
+    const top = section.getBoundingClientRect().top + window.scrollY - headerOffset;
+
+    window.history.pushState(null, '', `#${sectionId}`);
+    window.scrollTo({
+      top: Math.max(0, top),
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    });
+  };
+
+  const resolveDemoId = (textPrompt: string, explicitDemoId?: DemoPresetId): DemoPresetId => {
+    if (explicitDemoId) return explicitDemoId;
+
+    const lowerPrompt = textPrompt.toLowerCase();
+    if (
+      lowerPrompt.includes('video') ||
+      lowerPrompt.includes('script') ||
+      lowerPrompt.includes('短视频') ||
+      lowerPrompt.includes('脚本') ||
+      lowerPrompt.includes('口播') ||
+      lowerPrompt.includes('抖音')
+    ) {
+      return 'shortVideo';
+    }
+
+    if (
+      lowerPrompt.includes('trend') ||
+      lowerPrompt.includes('hotspot') ||
+      lowerPrompt.includes('topic') ||
+      lowerPrompt.includes('爆款') ||
+      lowerPrompt.includes('选题') ||
+      lowerPrompt.includes('热点') ||
+      lowerPrompt.includes('标题')
+    ) {
+      return 'trends';
+    }
+
+    return 'rewrite';
+  };
+
+  // Run a local product demo. This intentionally does not call the API.
+  const handleGenerate = (finalPromptText?: string, explicitDemoId?: DemoPresetId) => {
     const textPrompt = finalPromptText || promptInput;
     if (!textPrompt.trim()) return;
 
+    const nextDemoId = resolveDemoId(textPrompt, explicitDemoId);
+    const nextDemo = demoScripts[nextDemoId];
+    setActiveDemoId(nextDemoId);
+    setPromptInput(textPrompt);
+    setGeneratedInfo(fallbackDesigns[nextDemo.legacyKey]);
     setIsGenerating(true);
     setGenerationStage(1);
-    setGeneratedInfo(null);
+    setDemoRunKey((key) => key + 1);
 
     // Scroll smoothly to pipeline section
     setTimeout(() => {
       pipelineRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
-
-    try {
-      const res = await fetch('/api/gemini/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: textPrompt }),
-      });
-
-      if (!res.ok) {
-        throw new Error("Generation endpoint error");
-      }
-
-      const data = await res.json();
-      setGeneratedInfo(data);
-    } catch (e) {
-      console.error("Failed to query API, using smart local fallback", e);
-      // Pick matching fallback design
-      const lowerPr = textPrompt.toLowerCase();
-      let picked = fallbackDesigns.analytics;
-      if (lowerPr.includes("hotspot") || lowerPr.includes("trend") || lowerPr.includes("tracker")) {
-        picked = fallbackDesigns.banking;
-      } else if (lowerPr.includes("material") || lowerPr.includes("asset") || lowerPr.includes("library")) {
-        picked = fallbackDesigns.crm;
-      } else if (lowerPr.includes("workflow") || lowerPr.includes("automation") || lowerPr.includes("publish")) {
-        picked = fallbackDesigns.inventory;
-      } else {
-        // Build customized fallback representation
-        picked = {
-          ...fallbackDesigns.analytics,
-          appName: locale === 'zh' ? `${textPrompt.substring(0, 12)}工作台` : textPrompt.substring(0, 20) + " Studio",
-          appSubtitle: locale === 'zh'
-            ? `已为“${textPrompt.substring(0, 18)}...”准备创作流程`
-            : `Creator workflow prepared for "${textPrompt.substring(0, 30)}..."`
-        };
-      }
-      setGeneratedInfo(picked);
-    }
   };
 
   // Pre-fill a preset from the showcase card or buttons
-  const triggerPreset = (presetText: string) => {
-    setPromptInput(presetText);
-    handleGenerate(presetText);
+  const triggerPreset = (preset: string | { id?: DemoPresetId; prompt: string }) => {
+    const presetText = typeof preset === 'string' ? preset : preset.prompt;
+    const presetId = typeof preset === 'string' ? undefined : preset.id;
+    handleGenerate(presetText, presetId);
   };
+
+  const navItems: { id: NavSectionId; label: string }[] = [
+    { id: 'product', label: copy.navProduct },
+    { id: 'demo', label: copy.navDemo },
+    { id: 'features', label: copy.navFeatures },
+    { id: 'pricing', label: copy.navPlans },
+    { id: 'faq', label: copy.navFaq },
+  ];
 
   // Return corresponding Icon Component based on icon string
   const renderIcon = (iconName: string, className = "h-5 w-5") => {
@@ -736,15 +1043,26 @@ export default function Page() {
     }
   };
 
+  const demoComplete = generationStage === 4;
+  const visibleResultLines = demoComplete
+    ? activeDemo.resultLines
+    : generationStage >= 3
+      ? activeDemo.resultLines.slice(0, 2)
+      : [];
+
   return (
     <div id="horizon-root" className="min-h-screen relative overflow-x-hidden selection:bg-orange-200 selection:text-orange-950">
-      
+
       {/* Exquisite Top Navigation Bar */}
       <header className="fixed top-5 left-1/2 -translate-x-1/2 w-[92%] max-w-7xl rounded-full border border-white/60 bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl shadow-md z-50 transition-all">
         <div className="flex justify-between items-center py-2.5 px-6">
-          
+
           {/* Logo with interactive click triggers (re-freshes) */}
-          <a href="#" className="flex items-center gap-2.5 group">
+          <a
+            href="#product"
+            onClick={(event) => scrollToSection(event, 'product')}
+            className="flex items-center gap-2.5 group"
+          >
             <Image
               src="/logo.png"
               alt="Genie Maker logo"
@@ -757,12 +1075,31 @@ export default function Page() {
           </a>
 
           {/* Desktop Links */}
-          <nav className="hidden md:flex items-center gap-7">
-            <a href="#product" className="text-[13.5px] font-semibold text-slate-900 hover:text-primary transition-all">{copy.navProduct}</a>
-            <a href="#demo" className="text-[13.5px] font-medium text-slate-500 hover:text-primary transition-all">{copy.navDemo}</a>
-            <a href="#features" className="text-[13.5px] font-medium text-slate-500 hover:text-primary transition-all">{copy.navFeatures}</a>
-            <a href="#pricing" className="text-[13.5px] font-medium text-slate-500 hover:text-primary transition-all">{copy.navPlans}</a>
-            <a href="#faq" className="text-[13.5px] font-medium text-slate-500 hover:text-primary transition-all">{copy.navFaq}</a>
+          <nav className="hidden md:flex items-center gap-1 rounded-full bg-white/35 p-1">
+            {navItems.map((item) => {
+              const isActive = activeNavId === item.id;
+              return (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={(event) => scrollToSection(event, item.id)}
+                  className={`relative rounded-full px-3.5 py-1.5 text-[13.5px] transition-colors ${
+                    isActive ? 'text-slate-950' : 'text-slate-500 hover:text-primary'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-active-pill"
+                      className="absolute inset-0 rounded-full bg-white shadow-sm ring-1 ring-slate-200/70"
+                      transition={{ type: 'spring', stiffness: 420, damping: 34, mass: 0.7 }}
+                    />
+                  )}
+                  <span className={`relative z-10 ${isActive ? 'font-semibold' : 'font-medium'}`}>
+                    {item.label}
+                  </span>
+                </a>
+              );
+            })}
           </nav>
 
           {/* Nav Right CTAs */}
@@ -775,15 +1112,16 @@ export default function Page() {
             >
               <Languages className="h-4 w-4" />
             </button>
-            <a 
+            <a
               href="#demo"
+              onClick={(event) => scrollToSection(event, 'demo')}
               className="bg-slate-900 text-white text-[13px] font-semibold px-5 py-2 rounded-full hover:bg-slate-800 active:scale-95 transition-all shadow-sm hidden sm:inline-flex"
             >
               {copy.startCta}
             </a>
-            
+
             {/* Mobile Toggle */}
-            <button 
+            <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden h-9 w-9 flex items-center justify-center rounded-full bg-slate-100 text-slate-700"
             >
@@ -796,17 +1134,27 @@ export default function Page() {
         {/* Mobile Dropdown Nav Menu */}
         <AnimatePresence>
           {mobileMenuOpen && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden border-t border-slate-150/60 bg-white/95 px-6 py-4 flex flex-col gap-3 rounded-b-3xl"
+              className="md:hidden border-t border-slate-100/60 bg-white/95 px-6 py-4 flex flex-col gap-3 rounded-b-3xl"
             >
-              <a href="#product" onClick={() => setMobileMenuOpen(false)} className="py-2 text-slate-800 font-medium border-b border-slate-100">{copy.navProduct}</a>
-              <a href="#demo" onClick={() => setMobileMenuOpen(false)} className="py-2 text-slate-800 font-medium border-b border-slate-100">{copy.navDemo}</a>
-              <a href="#features" onClick={() => setMobileMenuOpen(false)} className="py-2 text-slate-800 font-medium border-b border-slate-100">{copy.navFeatures}</a>
-              <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="py-2 text-slate-800 font-medium border-b border-slate-100">{copy.navPlans}</a>
-              <a href="#faq" onClick={() => setMobileMenuOpen(false)} className="py-2 text-slate-800 font-medium">{copy.navFaq}</a>
+              {navItems.map((item, index) => {
+                const isActive = activeNavId === item.id;
+                return (
+                  <a
+                    key={item.id}
+                    href={`#${item.id}`}
+                    onClick={(event) => scrollToSection(event, item.id)}
+                    className={`relative rounded-xl px-3 py-2 font-medium transition-colors ${
+                      index < navItems.length - 1 ? 'border-b border-slate-100' : ''
+                    } ${isActive ? 'text-slate-950 bg-slate-100' : 'text-slate-800 hover:text-primary'}`}
+                  >
+                    {item.label}
+                  </a>
+                );
+              })}
             </motion.div>
           )}
         </AnimatePresence>
@@ -817,13 +1165,13 @@ export default function Page() {
 
         {/* SECTION 1: HERO CONTAINER */}
         <section id="product" className="relative pt-40 pb-20 px-4 sm:px-8 md:px-16 min-h-[95vh] flex flex-col items-center justify-center text-center overflow-hidden">
-          
+
           {/* Aesthetic Fluid Backdrop Shapes */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#38BDF8]/15 via-[#C084FC]/10 to-transparent -z-10" />
           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-r from-orange-400/10 to-indigo-500/15 rounded-full blur-[110px] -z-10" />
 
           {/* New Event Alert Badge */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -838,7 +1186,7 @@ export default function Page() {
           </motion.div>
 
           {/* Hero Header Typography */}
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
@@ -848,7 +1196,7 @@ export default function Page() {
           </motion.h1>
 
           {/* Hero Subtitle */}
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
@@ -858,41 +1206,38 @@ export default function Page() {
           </motion.p>
 
           {/* Prompt Entry Platform Box */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className="w-full max-w-[850px] bg-white rounded-3xl border border-slate-200 shadow-xl p-5 mb-8 backdrop-blur"
           >
             <div className="flex flex-col gap-4">
-              <textarea 
+              <textarea
                 value={promptInput}
-                onChange={(e) => setPromptInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleGenerate();
-                  }
-                }}
-                className="w-full bg-transparent border-none resize-none text-base sm:text-lg text-slate-900 placeholder:text-slate-400 focus:ring-0 min-h-[95px] focus:outline-none"
+                readOnly
+                tabIndex={-1}
+                className="w-full bg-transparent border-none resize-none text-base sm:text-lg text-slate-900 placeholder:text-slate-400 focus:ring-0 min-h-[95px] focus:outline-none cursor-default select-none"
                 placeholder={copy.placeholder}
               />
-              
+
               <div className="flex items-center justify-between pt-4 border-t border-slate-100">
                 <div className="flex items-center gap-3">
-                  <button 
-                    onClick={() => triggerPreset("Create a multi-platform post from a product brief, attached images, and audience notes.")}
-                    className="p-2 rounded-full hover:bg-slate-100 transition-colors text-slate-400 hover:text-slate-700" 
-                    title="Add Creation Context"
+                  <button
+                    type="button"
+                    tabIndex={-1}
+                    aria-hidden="true"
+                    className="p-2 rounded-full text-slate-400 cursor-default"
                   >
                     <Plus className="h-5 w-5" />
                   </button>
                 </div>
 
-                <button 
-                  onClick={() => handleGenerate()}
-                  disabled={!promptInput.trim() || isGenerating}
-                  className="bg-slate-900 text-white rounded-full w-12 h-12 flex items-center justify-center hover:bg-orange-500 active:scale-95 transition-all shadow-md disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed"
+                <button
+                  type="button"
+                  tabIndex={-1}
+                  aria-hidden="true"
+                  className="bg-white text-slate-900 border border-slate-200 rounded-full w-12 h-12 flex items-center justify-center transition-all shadow-md hover:bg-slate-50 cursor-default"
                 >
                   <ArrowUp className="h-5 w-5" />
                 </button>
@@ -903,9 +1248,9 @@ export default function Page() {
           {/* Simple Preset Suggestion Chips */}
           <div className="flex flex-wrap items-center justify-center gap-3 max-w-4xl">
             {presets.map((preset, index) => (
-              <button 
+              <button
                 key={index}
-                onClick={() => triggerPreset(preset.prompt)}
+                onClick={() => triggerPreset(preset)}
                 className="bg-white hover:bg-slate-100 text-slate-800 border border-slate-200/80 shadow-xs rounded-full px-4.5 py-1.5 text-[12.5px] font-medium hover:border-slate-300 active:scale-95 transition-all cursor-pointer select-none"
               >
                 {preset.label}
@@ -915,312 +1260,369 @@ export default function Page() {
 
         </section>
 
-        {/* SECTION 2: LIVE GENERATION WORKSPACE (DOUBLES AS PREVIEW CONTAINER) */}
-        <div ref={pipelineRef} id="demo" className="scroll-mt-28 py-20 bg-slate-100/50 border-t border-b border-slate-200">
-          <div className="max-w-6xl mx-auto px-4 sm:px-8">
-            <div className="text-center mb-10">
+        {/* SECTION 2: LOCAL PRODUCT DEMO PLAYER */}
+        <motion.div
+          ref={pipelineRef}
+          id="demo"
+          variants={sectionReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={revealViewport}
+          className="scroll-mt-28 py-20 bg-slate-100/50 border-t border-b border-slate-100"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-8">
+            <RevealItem className="text-center mb-10">
               <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 mb-2">
-                {isGenerating ? copy.demoRunningTitle : copy.demoIdleTitle}
+                {activeDemo.title}
               </h2>
-              <p className="text-slate-500 max-w-xl mx-auto text-sm">
-                {copy.demoSubtitle}
+              <p className="text-slate-500 max-w-2xl mx-auto text-sm">
+                {activeDemo.subtitle}
               </p>
-            </div>
+            </RevealItem>
 
-            {/* If NOT generating and no schema built, show placeholder prompts instruction */}
-            {!isGenerating && !generatedInfo && (
-              <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center shadow-xs flex flex-col items-center justify-center max-w-2xl mx-auto">
-                <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-orange-500 mb-4">
-                  <Sparkles className="h-6 w-6" />
+            <RevealItem>
+              <motion.div
+                key={`${activeDemoId}-${demoRunKey}`}
+                initial={{ opacity: 0, y: 18, filter: 'blur(8px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                transition={{ duration: 0.55, ease: revealEase }}
+                className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl"
+              >
+                <div className="flex items-center justify-between border-b border-slate-200 bg-slate-950 px-4 py-3 text-white sm:px-5">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="flex gap-1.5">
+                      <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
+                      <span className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
+                      <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
+                    </div>
+                    <div className="min-w-0 truncate text-xs font-semibold text-slate-300">
+                      Genie Maker / {activeDemo.sessionTitle}
+                    </div>
+                  </div>
+                  <div className="hidden items-center gap-2 rounded-full bg-white/8 px-3 py-1 text-[11px] font-semibold text-slate-300 sm:flex">
+                    {isGenerating ? (
+                      <Loader2 className="h-3.5 w-3.5 animate-spin" style={{ color: demoAccent }} />
+                    ) : (
+                      <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+                    )}
+                    {demoComplete
+                      ? (locale === 'zh' ? '演示完成' : 'Demo complete')
+                      : (locale === 'zh' ? '正在模拟真实工作台' : 'Simulating workspace')}
+                  </div>
                 </div>
-                <h3 className="font-bold text-slate-900 text-base mb-1">{copy.awaitingTitle}</h3>
-                <p className="text-slate-500 text-sm max-w-md mb-6">
-                  {copy.awaitingText}
-                </p>
-                <button
-                  onClick={() => triggerPreset(locale === 'zh' ? "根据热点信号和已保存的产品素材，生成一篇小红书笔记。" : "Create a Xiaohongshu note from trend signals and saved product materials.")}
-                  className="bg-slate-900 hover:bg-slate-800 text-white font-semibold text-[13px] py-1.5 px-4 rounded-full transition-colors flex items-center gap-1.5"
-                >
-                  {copy.loadPreset} <ArrowRight className="h-3 w-3" />
-                </button>
-              </div>
-            )}
 
-            {/* Compile Pipeline and Output Screen */}
-            {(isGenerating || generatedInfo) && (
-              <div className="space-y-8">
-                
-                {/* Generation Milestone Timelines */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  {/* Step 1: Model Synthesis */}
-                  <div className={`p-4 rounded-xl border bg-white transition-all shadow-xs ${
-                    generationStage >= 1 ? 'border-indigo-400 ring-1 ring-indigo-100' : 'border-slate-200 opacity-50'
-                  }`}>
-                    <div className="flex items-center gap-2.5 mb-2">
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                        generationStage > 1 ? 'bg-indigo-500 text-white' : 'bg-slate-100 text-slate-600'
-                      }`}>
-                        {generationStage > 1 ? <Check className="h-3.5 w-3.5" /> : "1"}
+                <div className="grid min-h-[620px] grid-cols-1 bg-slate-50 lg:grid-cols-[36%_64%]">
+                  <div className="relative flex min-h-[520px] flex-col border-b border-slate-200 bg-white lg:border-b-0 lg:border-r">
+                    <div className="flex h-14 shrink-0 items-center justify-between border-b border-slate-100 px-4">
+                      <div className="min-w-0">
+                        <div className="truncate text-sm font-bold text-slate-900">{activeDemo.sessionTitle}</div>
+                        <div className="text-[11px] text-slate-400">
+                          {locale === 'zh' ? 'AI 创作会话' : 'AI creation session'}
+                        </div>
                       </div>
-                      <span className="font-bold text-[13.5px] text-slate-800">{copy.stage1}</span>
-                    </div>
-                    {generationStage === 1 ? (
-                      <div className="flex items-center gap-1.5 text-xs text-indigo-500">
-                        <Loader2 className="h-3.5 w-3.5 animate-spin" /> {copy.stage1Active}
-                      </div>
-                    ) : generationStage > 1 ? (
-                      <span className="text-xs text-slate-500 text-semibold">{copy.stage1Done}</span>
-                    ) : (
-                      <span className="text-xs text-slate-400">{copy.stageIdle}</span>
-                    )}
-                  </div>
-
-                  {/* Step 2: Database Migration */}
-                  <div className={`p-4 rounded-xl border bg-white transition-all shadow-xs ${
-                    generationStage >= 2 ? 'border-orange-400 ring-1 ring-orange-100' : 'border-slate-200 opacity-50'
-                  }`}>
-                    <div className="flex items-center gap-2.5 mb-2">
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                        generationStage > 2 ? 'bg-orange-500 text-white' : 'bg-slate-100 text-slate-600'
-                      }`}>
-                        {generationStage > 2 ? <Check className="h-3.5 w-3.5" /> : "2"}
-                      </div>
-                      <span className="font-bold text-[13.5px] text-slate-800">{copy.stage2}</span>
-                    </div>
-                    {generationStage === 2 ? (
-                      <div className="flex items-center gap-1.5 text-xs text-orange-500">
-                        <Loader2 className="h-3.5 w-3.5 animate-spin" /> {copy.stage2Active}
-                      </div>
-                    ) : generationStage > 2 ? (
-                      <span className="text-xs text-slate-500 text-semibold">{copy.stage2Done}</span>
-                    ) : (
-                      <span className="text-xs text-slate-400 font-medium">{copy.stage2Idle}</span>
-                    )}
-                  </div>
-
-                  {/* Step 3: SSL assets */}
-                  <div className={`p-4 rounded-xl border bg-white transition-all shadow-xs ${
-                    generationStage >= 3 ? 'border-emerald-400 ring-1 ring-emerald-100' : 'border-slate-200 opacity-50'
-                  }`}>
-                    <div className="flex items-center gap-2.5 mb-2">
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                        generationStage > 3 ? 'bg-emerald-500 text-white' : 'bg-slate-100 text-slate-600'
-                      }`}>
-                        {generationStage > 3 ? <Check className="h-3.5 w-3.5" /> : "3"}
-                      </div>
-                      <span className="font-bold text-[13.5px] text-slate-800">{copy.stage3}</span>
-                    </div>
-                    {generationStage === 3 ? (
-                      <div className="flex items-center gap-1.5 text-xs text-emerald-500">
-                        <Loader2 className="h-3.5 w-3.5 animate-spin" /> {copy.stage3Active}
-                      </div>
-                    ) : generationStage > 3 ? (
-                      <span className="text-xs text-slate-500 text-semibold">{copy.stage3Done}</span>
-                    ) : (
-                      <span className="text-xs text-slate-400">{copy.stage3Idle}</span>
-                    )}
-                  </div>
-
-                  {/* Step 4: Live deployment */}
-                  <div className={`p-4 rounded-xl border bg-white transition-all shadow-xs ${
-                    generationStage >= 4 ? 'border-slate-800 ring-1 ring-slate-200' : 'border-slate-200 opacity-50'
-                  }`}>
-                    <div className="flex items-center gap-2.5 mb-2">
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                        generationStage === 4 ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'
-                      }`}>
-                        {generationStage === 4 ? "✓" : "4"}
-                      </div>
-                      <span className="font-bold text-[13.5px] text-slate-800">{copy.stage4}</span>
-                    </div>
-                    {generationStage === 4 ? (
-                      <span className="text-xs text-emerald-600 font-bold flex items-center gap-1">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping inline-block" /> {copy.stage4Done}
+                      <span className="rounded-md bg-slate-100 px-2 py-1 text-[10px] font-bold text-slate-500">
+                        {demoComplete ? 'DONE' : 'LIVE'}
                       </span>
-                    ) : (
-                      <span className="text-xs text-slate-400">{copy.inactive}</span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Simulated Console Screen */}
-                {generationStage < 4 && (
-                  <div className="bg-slate-950 font-mono text-slate-350 text-xs p-4 rounded-2xl shadow-lg border border-slate-800 space-y-1.5">
-                    <div className="text-slate-500 select-none">{copy.console0}</div>
-                    {generationStage >= 1 && <div className="text-indigo-400">{"[INF]"} {copy.console1}</div>}
-                    {generationStage >= 1 && <div className="text-slate-350">{"[INF]"} {copy.console2}</div>}
-                    {generationStage >= 2 && <div className="text-orange-400">{"[SYS]"} {copy.console3}</div>}
-                    {generationStage >= 2 && <div className="text-slate-300">{"[DOC]"} {copy.console4}</div>}
-                    {generationStage >= 3 && <div className="text-emerald-400">{"[LIB]"} {copy.console5}</div>}
-                    {generationStage >= 3 && <div className="text-slate-300">{"[FLOW]"} {copy.console6}</div>}
-                    <div className="flex items-center gap-1 text-slate-400 pt-2 border-t border-slate-900">
-                      <Loader2 className="h-3 w-3 animate-spin" />
-                      <span>{copy.computing}</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* Built SaaS Application Stage Preview */}
-                {generationStage === 4 && generatedInfo && (
-                  <motion.div 
-                    initial={{ opacity: 0, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5 }}
-                    className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-xl"
-                  >
-                    
-                    {/* Model Render Toolbar Mock */}
-                    <div className="bg-slate-900 text-white py-3 px-6 flex flex-wrap items-center justify-between gap-4">
-                      <div className="flex items-center gap-3">
-                        <div className="flex gap-1.5">
-                          <span className="w-2.5 h-2.5 rounded-full bg-red-400 inline-block" />
-                          <span className="w-2.5 h-2.5 rounded-full bg-yellow-400 inline-block" />
-                          <span className="w-2.5 h-2.5 rounded-full bg-green-400 inline-block" />
-                        </div>
-                        <div className="text-xs bg-slate-850 px-3 py-1 rounded text-slate-400 font-mono max-w-xs truncate">
-                          https://{generatedInfo.appName.toLowerCase().replace(/[^a-z0-9]/g, "")}.genie-preview.live
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center gap-3 text-xs bg-slate-800 text-slate-350 px-3 py-1 rounded-full font-mono">
-                        <Clock className="h-3 w-3 text-emerald-400" />
-                        <span>{copy.draftReady}<b>{copy.readyReview}</b></span>
-                      </div>
                     </div>
 
-                    {/* LIVE VIEW WORKSPACE CANVAS */}
-                    <div className="p-6 md:p-8 space-y-8" style={{ backgroundColor: generatedInfo.colorPalette?.background || '#FAFAF9' }}>
-                      
-                      {/* Sub-Header inside customized view */}
-                      <div className="flex justify-between items-center pb-4 border-b border-slate-200/20">
-                        <div>
-                          <h3 className="text-2xl font-extrabold text-white flex items-center gap-2">
-                            <span className="h-6 w-6 rounded-full inline-flex items-center justify-center text-xs border" style={{ borderColor: generatedInfo.colorPalette.primary, color: generatedInfo.colorPalette.primary }}>
-                              ✦
-                            </span>
-                            {generatedInfo.appName}
-                          </h3>
-                          <p className="text-slate-400 text-xs mt-1">{generatedInfo.appSubtitle}</p>
-                        </div>
-                        <div className="flex gap-2">
-                          <span className="px-2.5 py-1 text-[11px] font-semibold text-emerald-400 bg-emerald-950/50 rounded-full border border-emerald-900/60 flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> {copy.reviewReady}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Content Grid */}
-                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        
-                        {/* Highlights & Features Panel */}
-                        <div className="lg:col-span-2 space-y-6">
-                          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">{copy.generatedModules}</h4>
-                          
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            {generatedInfo.keyFeatures?.map((feature: any, idx: number) => (
-                              <div key={idx} className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl flex flex-col justify-between">
-                                <div className="text-emerald-400 mb-3" style={{ color: generatedInfo.colorPalette.primary }}>
-                                  {renderIcon(feature.icon || "Sparkles", "h-5 w-5")}
-                                </div>
-                                <div>
-                                  <h5 className="font-bold text-white text-sm mb-1">{feature.title}</h5>
-                                  <p className="text-slate-400 text-[11px] leading-relaxed">{feature.description}</p>
-                                </div>
-                              </div>
+                    <div className="flex-1 space-y-5 overflow-hidden p-4">
+                      <motion.div
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.24 }}
+                        className="flex justify-end"
+                      >
+                        <div className="max-w-[86%] rounded-2xl rounded-tr-md bg-orange-50 px-4 py-3 text-sm leading-6 text-slate-800 ring-1 ring-orange-100">
+                          {activeDemo.userMessage}
+                          <div className="mt-2 flex flex-wrap justify-end gap-1.5">
+                            {activeDemo.materials.map((material) => (
+                              <span key={material} className="inline-flex rounded-md bg-white px-2 py-1 text-[10px] font-semibold text-slate-500 ring-1 ring-slate-200">
+                                @{material}
+                              </span>
                             ))}
                           </div>
-
-                          {/* Database Structure Preview */}
-                          <div className="bg-slate-950/80 border border-slate-800 p-5 rounded-2xl">
-                            <div className="flex justify-between items-center mb-3">
-                              <span className="text-[11px] font-bold uppercase tracking-widest text-slate-400 flex items-center gap-1.5">
-                                <Database className="h-3 w-3 text-slate-400" /> {copy.recordsTitle}
-                              </span>
-                              <span className="text-[10px] font-mono text-slate-500">{copy.recordsNote}</span>
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              {generatedInfo.databaseTables?.map((table: any, idx: number) => (
-                                <div key={idx} className="border border-slate-800 rounded-xl p-3 bg-slate-900/40">
-                                  <div className="flex justify-between items-center mb-1 border-b border-slate-800 pb-1.5">
-                                    <span className="font-bold text-[12.5px] text-white font-mono">{table.name}</span>
-                                    <span className="text-[9px] bg-slate-800 px-1.5 py-0.5 rounded text-indigo-300">{copy.saved}</span>
-                                  </div>
-                                  <p className="text-[10px] text-slate-400 mb-2 truncate" title={table.description}>
-                                    {table.description}
-                                  </p>
-                                  <div className="space-y-1">
-                                    {table.columns?.map((col: string, cIdx: number) => (
-                                      <div key={cIdx} className="flex justify-between text-[10px] font-mono hover:bg-slate-900 p-0.5 rounded">
-                                        <span className="text-slate-350">{col.split(':')[0]}</span>
-                                        <span className="text-slate-500">{col.split(':')[1] || 'string'}</span>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-
                         </div>
+                      </motion.div>
 
-                        {/* Interactive Agent Chat Logs */}
-                        <div className="bg-slate-950 border border-slate-800 p-4 rounded-2xl flex flex-col justify-between min-h-[320px]">
-                          <div>
-                            <div className="flex items-center justify-between pb-2 border-b border-slate-900 mb-3">
-                              <span className="text-xs font-bold text-slate-300">{copy.historyTitle}</span>
-                              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                      <AnimatePresence>
+                        {generationStage >= 2 && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 8 }}
+                            className="rounded-xl bg-slate-50 ring-1 ring-slate-200"
+                          >
+                            <div className="flex items-center justify-between px-3 py-2">
+                              <div className="flex items-center gap-2">
+                                <span className="relative flex h-2.5 w-2.5">
+                                  {!demoComplete && (
+                                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-40" style={{ backgroundColor: demoAccent }} />
+                                  )}
+                                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full" style={{ backgroundColor: demoAccent }} />
+                                </span>
+                                <span className="text-xs font-bold" style={{ color: demoAccent }}>
+                                  {locale === 'zh' ? 'Genie 正在思考' : 'Genie is thinking'}
+                                </span>
+                              </div>
+                              <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
                             </div>
-
-                            <div className="space-y-3 max-h-[240px] overflow-y-auto pr-1 text-[11.5px] hide-scrollbar">
-                              {generatedInfo.mockChatConversation?.map((chat: any, idx: number) => (
-                                <div key={idx} className={`flex gap-2 ${chat.sender === 'user' ? 'flex-row-reverse' : ''}`}>
-                                  <div className={`p-2 rounded-xl border max-w-[85%] ${
-                                    chat.sender === 'user' 
-                                      ? 'bg-slate-800 border-slate-700 text-slate-100 rounded-tr-none' 
-                                      : 'bg-slate-900 border-slate-850 text-slate-300 rounded-tl-none'
-                                  }`}>
-                                    <div className="font-bold text-[9px] mb-0.5 text-slate-400 uppercase">
-                                      {chat.sender === 'user' ? copy.creatorRequest : copy.genieAgent}
-                                    </div>
-                                    <p className="leading-relaxed">{chat.message}</p>
-                                  </div>
-                                </div>
-                              ))}
+                            <div className="space-y-2 border-t border-slate-200 px-3 py-2">
+                              {activeDemo.thinking.map((step, index) => {
+                                const visible = generationStage >= index + 2 || demoComplete;
+                                const active = !demoComplete && generationStage === index + 2;
+                                return visible ? (
+                                  <motion.div
+                                    key={step}
+                                    initial={{ opacity: 0, x: -6 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ duration: 0.2, delay: index * 0.08 }}
+                                    className="flex items-start gap-2 text-xs leading-5 text-slate-500"
+                                  >
+                                    {active ? (
+                                      <Loader2 className="mt-0.5 h-3.5 w-3.5 shrink-0 animate-spin" style={{ color: demoAccent }} />
+                                    ) : (
+                                      <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-500" />
+                                    )}
+                                    <span>{step}</span>
+                                  </motion.div>
+                                ) : null;
+                              })}
                             </div>
-                          </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
 
-                          <div className="pt-2 border-t border-slate-900 mt-2 flex items-center justify-between text-[11px] text-slate-400">
-                            <span className="flex items-center gap-1 text-orange-400">
-                              <CodeXml className="h-3 w-3" /> {copy.workspaceReady}
-                            </span>
-                            <button 
-                              onClick={() => {
-                                alert(copy.openDraftAlert);
-                              }}
-                              className="text-white hover:text-orange-400 font-semibold transition-colors bg-slate-900 hover:bg-slate-855 px-2.5 py-1 rounded border border-slate-800 text-[10.5px]"
-                            >
-                              {copy.openDraft}
-                            </button>
-                          </div>
-                        </div>
-
-                      </div>
-
+                      <AnimatePresence>
+                        {generationStage >= 3 && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 8 }}
+                            className="text-sm leading-6 text-slate-700"
+                          >
+                            <div className="mb-1 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                              Genie
+                            </div>
+                            <div className="rounded-2xl rounded-tl-md bg-white px-4 py-3 shadow-xs ring-1 ring-slate-200">
+                              {locale === 'zh'
+                                ? '已打开右侧产物工作台，我会把过程内容整理成可保存、可复制的结构化草稿。'
+                                : 'The workbench is open. I am turning the process into a structured draft you can save or copy.'}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
 
-                  </motion.div>
-                )}
+                    <div className="border-t border-slate-100 bg-white p-4">
+                      <AnimatePresence initial={false}>
+                        {generationStage >= 2 && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 8 }}
+                            className="mb-3 rounded-xl border border-slate-200 bg-slate-50 p-3"
+                          >
+                            <div className="mb-2 flex items-center justify-between">
+                              <div className="flex items-center gap-2 text-[13px] font-bold" style={{ color: demoAccent }}>
+                                <LayoutGrid className="h-4 w-4" />
+                                {locale === 'zh' ? '任务进度' : 'Task progress'}
+                              </div>
+                              <span className="rounded-full bg-white px-2 py-0.5 text-[11px] text-slate-500 ring-1 ring-slate-200">
+                                {activeDemo.tasks.filter((_, index) => demoComplete || generationStage >= index + 3).length}/{activeDemo.tasks.length}
+                              </span>
+                            </div>
+                            <div className="space-y-2">
+                              {activeDemo.tasks.map((task, index) => {
+                                const state = demoComplete || generationStage >= index + 3
+                                  ? 'done'
+                                  : generationStage === index + 2
+                                    ? 'running'
+                                    : 'todo';
+                                return (
+                                  <div
+                                    key={task}
+                                    className={`flex items-center gap-2 rounded-lg px-2.5 py-2 text-xs ${
+                                      state === 'done'
+                                        ? 'bg-emerald-50 text-emerald-700'
+                                        : state === 'running'
+                                          ? 'bg-white text-slate-800 ring-1 ring-slate-200'
+                                          : 'bg-slate-100 text-slate-400'
+                                    }`}
+                                  >
+                                    {state === 'done' ? (
+                                      <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />
+                                    ) : state === 'running' ? (
+                                      <Loader2 className="h-4 w-4 shrink-0 animate-spin" style={{ color: demoAccent }} />
+                                    ) : (
+                                      <span className="h-4 w-4 shrink-0 rounded-full border border-slate-300" />
+                                    )}
+                                    <span className="truncate font-medium">{task}</span>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
 
-              </div>
-            )}
+                      <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 p-2">
+                        <div className="flex items-center gap-1.5 text-slate-400">
+                          <Plus className="h-4 w-4" />
+                          <span className="text-xs">{locale === 'zh' ? '附件 / 素材' : 'Attachments / materials'}</span>
+                        </div>
+                        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 text-white">
+                          <ArrowUp className="h-4 w-4" />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={`workbench-${activeDemoId}-${demoRunKey}`}
+                      initial={{ x: 96, opacity: 0, filter: 'blur(8px)' }}
+                      animate={{
+                        x: generationStage >= 3 ? 0 : 48,
+                        opacity: generationStage >= 3 ? 1 : 0.38,
+                        filter: generationStage >= 3 ? 'blur(0px)' : 'blur(4px)'
+                      }}
+                      transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+                      className="relative flex min-h-[620px] flex-col bg-slate-100/70"
+                    >
+                      <div className="flex h-14 items-center justify-between border-b border-slate-200 bg-white px-5">
+                        <div className="flex min-w-0 items-center gap-2">
+                          <Sparkles className="h-4 w-4 shrink-0" style={{ color: demoAccent }} />
+                          <span className="truncate text-sm font-bold text-slate-900">{activeDemo.toolName}</span>
+                          <span className="rounded-md border border-slate-200 bg-slate-50 px-1.5 py-0.5 text-[11px] text-slate-500">
+                            {demoComplete
+                              ? (locale === 'zh' ? '已完成' : 'Done')
+                              : (locale === 'zh' ? '生成中' : 'Generating')}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <button className="hidden h-8 items-center gap-1.5 rounded-lg bg-slate-900 px-3 text-xs font-bold text-white sm:inline-flex">
+                            <Check className="h-3.5 w-3.5" />
+                            {activeDemo.saveLabel}
+                          </button>
+                          <button className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-400">
+                            <X className="h-4 w-4" />
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="min-h-0 flex-1 p-5">
+                        <div className="flex h-full flex-col gap-4">
+                          <div className="flex items-start justify-between gap-4">
+                            <div>
+                              <h3 className="text-2xl font-black tracking-tight text-slate-900">{activeDemo.resultTitle}</h3>
+                              <p className="mt-1 text-xs text-slate-500">{activeDemo.resultMeta}</p>
+                            </div>
+                            <div className="flex flex-wrap justify-end gap-1.5">
+                              {activeDemo.tags.map((tag) => (
+                                <span key={tag} className="rounded-full bg-white px-2 py-1 text-[11px] font-bold text-slate-500 ring-1 ring-slate-200">
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+
+                          <div className="grid gap-4 lg:grid-cols-[1fr_0.78fr]">
+                            <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                              <div className="mb-3 flex items-center justify-between">
+                                <span className="text-xs font-bold text-slate-500">
+                                  {locale === 'zh' ? '产物预览' : 'Output preview'}
+                                </span>
+                                {isGenerating && (
+                                  <span className="flex items-center gap-1 text-[11px] font-bold" style={{ color: demoAccent }}>
+                                    <Loader2 className="h-3 w-3 animate-spin" />
+                                    {locale === 'zh' ? '流式生成' : 'Streaming'}
+                                  </span>
+                                )}
+                              </div>
+                              <div className="space-y-3 text-sm leading-6 text-slate-700">
+                                {visibleResultLines.map((line, index) => (
+                                  <motion.p
+                                    key={`${line}-${demoRunKey}`}
+                                    initial={{ opacity: 0, y: 6 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.25, delay: index * 0.14 }}
+                                    className="rounded-xl bg-slate-50 px-3 py-2"
+                                  >
+                                    {line}
+                                  </motion.p>
+                                ))}
+                                {!visibleResultLines.length && (
+                                  <div className="flex h-52 items-center justify-center rounded-xl border border-dashed border-slate-200 text-xs text-slate-400">
+                                    {locale === 'zh' ? '等待智能体打开产物工作台...' : 'Waiting for the workbench to open...'}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="space-y-4">
+                              <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                                <div className="mb-3 text-xs font-bold text-slate-500">
+                                  {locale === 'zh' ? '素材引用' : 'Referenced materials'}
+                                </div>
+                                <div className="space-y-2">
+                                  {activeDemo.materials.map((material, index) => (
+                                    <motion.div
+                                      key={material}
+                                      initial={{ opacity: 0, x: 8 }}
+                                      animate={{ opacity: 1, x: 0 }}
+                                      transition={{ duration: 0.2, delay: index * 0.08 }}
+                                      className="flex items-center justify-between rounded-lg bg-slate-50 px-3 py-2 text-xs text-slate-600"
+                                    >
+                                      <span className="truncate">@{material}</span>
+                                      <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-500" />
+                                    </motion.div>
+                                  ))}
+                                </div>
+                              </div>
+
+                              <div className="rounded-2xl border border-slate-200 bg-slate-950 p-4 text-white shadow-sm">
+                                <div className="mb-3 flex items-center justify-between">
+                                  <span className="text-xs font-bold text-slate-300">
+                                    {locale === 'zh' ? '会话快照' : 'Session snapshot'}
+                                  </span>
+                                  <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                                </div>
+                                <div className="space-y-2 text-[11px] text-slate-400">
+                                  <div className="flex justify-between">
+                                    <span>{locale === 'zh' ? '当前状态' : 'Status'}</span>
+                                    <span className="font-mono text-slate-200">{demoComplete ? 'split.done' : 'split.streaming'}</span>
+                                  </div>
+                                  <div className="flex justify-between">
+                                    <span>{locale === 'zh' ? '工作台' : 'Workbench'}</span>
+                                    <span className="font-mono text-slate-200">{activeDemo.toolName}</span>
+                                  </div>
+                                  <div className="h-1.5 overflow-hidden rounded-full bg-slate-800">
+                                    <motion.div
+                                      className="h-full rounded-full"
+                                      style={{ backgroundColor: demoAccent }}
+                                      initial={{ width: '18%' }}
+                                      animate={{ width: demoComplete ? '100%' : generationStage >= 3 ? '72%' : '38%' }}
+                                      transition={{ duration: 0.45 }}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              </motion.div>
+            </RevealItem>
           </div>
-        </div>
+        </motion.div>
 
         {/* SECTION 3: FEATURE SLIDE SHOW 01 */}
-        <section id="features" className="py-20 px-4 sm:px-8 md:px-16 relative">
-          <div className="max-w-6xl mx-auto bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col md:flex-row min-h-[550px]">
-            
+        <RevealSection id="features" className="py-20 px-4 sm:px-8 md:px-16 relative">
+          <RevealItem className="max-w-6xl mx-auto bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col md:flex-row min-h-[550px]">
+
             {/* Info Text Content */}
             <div className="p-8 md:p-12 flex-1 flex flex-col justify-center">
               <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">{copy.featureEyebrow}</span>
@@ -1230,8 +1632,8 @@ export default function Page() {
               <p className="text-slate-600 text-[14.5px] leading-relaxed mb-8 max-w-md">
                 {copy.featureText}
               </p>
-              
-              <a 
+
+              <a
                 href="#demo"
                 className="bg-white/90 border border-slate-200 text-slate-900 text-xs font-bold py-3 px-6 rounded-xl hover:bg-slate-50 transition-colors w-fit shadow-xs inline-flex items-center gap-1.5"
               >
@@ -1242,7 +1644,7 @@ export default function Page() {
             {/* Interactive Tab Frame (Swappable Tabs Visuals) */}
             <div className="flex-1 bg-slate-50/60 p-6 md:p-10 relative overflow-hidden flex flex-col justify-between border-l border-slate-100">
               <div className="absolute inset-0 bg-gradient-to-br from-orange-400/5 via-indigo-500/5 to-transparent -z-10" />
-              
+
               {/* Tabs Switcher Headers */}
               <div className="flex items-center justify-center mb-6">
                 <div className="p-1 rounded-full border border-slate-200/80 bg-white shadow-xs inline-flex gap-1">
@@ -1251,8 +1653,8 @@ export default function Page() {
                       key={tab}
                       onClick={() => setActiveTabFeature(tab)}
                       className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all capitalize cursor-pointer ${
-                        activeTabFeature === tab 
-                          ? 'bg-slate-900 text-white shadow-xs' 
+                        activeTabFeature === tab
+                          ? 'bg-slate-900 text-white shadow-xs'
                           : 'text-slate-500 hover:text-slate-900'
                       }`}
                     >
@@ -1264,7 +1666,7 @@ export default function Page() {
 
               {/* Tab Display Screens */}
               <div className="flex-1 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex flex-col justify-between min-h-[220px]">
-                
+
                 {/* Chat Tab active */}
                 {activeTabFeature === 'chat' && (
                   <div className="space-y-4">
@@ -1275,7 +1677,7 @@ export default function Page() {
                         <p className="text-slate-700 leading-relaxed">{copy.agentLine}</p>
                       </div>
                     </div>
-                    
+
                     <div className="flex gap-2 flex-row-reverse">
                       <div className="w-5.5 h-5.5 rounded-full bg-slate-900 text-white flex items-center justify-center text-[10.5px] font-bold">U</div>
                       <div className="bg-orange-50 border border-orange-100 rounded-xl p-2.5 max-w-[85%] text-xs text-right">
@@ -1330,13 +1732,13 @@ export default function Page() {
 
             </div>
 
-          </div>
-        </section>
+          </RevealItem>
+        </RevealSection>
 
         {/* SECTION 4: FEATURE SLIDE SHOW 02 */}
-        <section className="pb-20 px-4 sm:px-8 md:px-16 relative">
-          <div className="max-w-6xl mx-auto bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col md:flex-row-reverse min-h-[550px]">
-            
+        <RevealSection className="pb-20 px-4 sm:px-8 md:px-16 relative">
+          <RevealItem className="max-w-6xl mx-auto bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col md:flex-row-reverse min-h-[550px]">
+
             {/* Info Text Content */}
             <div className="p-8 md:p-12 flex-1 flex flex-col justify-center">
               <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">{copy.opsEyebrow}</span>
@@ -1359,9 +1761,9 @@ export default function Page() {
             {/* Static Visual Card Representing deployment dashboard */}
             <div className="flex-1 bg-slate-50/60 p-6 md:p-10 relative overflow-hidden flex items-center justify-center border-r border-slate-100">
               <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/5 via-indigo-500/5 to-transparent -z-10" />
-              
+
               <div className="relative w-full max-w-sm bg-white rounded-2xl border border-slate-200 shadow-md p-6">
-                
+
                 {/* Header widget */}
                 <div className="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
                   <div className="flex items-center gap-2">
@@ -1419,29 +1821,30 @@ export default function Page() {
 
             </div>
 
-          </div>
-        </section>
+          </RevealItem>
+        </RevealSection>
 
         {/* SECTION 5: GALLERY SHOWCASE (CLICK TO RUN PRESETS) */}
-        <section className="py-24 bg-white relative overflow-hidden border-t border-slate-200">
-          
+        <RevealSection className="py-24 bg-white relative overflow-hidden border-t border-slate-200">
+
           {/* Subtle grid pattern */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30 pointer-events-none" />
 
-          <div className="max-w-6xl mx-auto px-4 sm:px-8 text-center mb-16 relative z-10">
+          <RevealItem className="max-w-6xl mx-auto px-4 sm:px-8 text-center mb-16 relative z-10">
             <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 mb-4">
               {copy.showcaseTitle}
             </h2>
             <p className="text-slate-500 max-w-xl mx-auto text-sm">
               {copy.showcaseText}
             </p>
-          </div>
+          </RevealItem>
 
           {/* Interactive Showcase Horizontal Loop / Row */}
           <div className="w-full flex gap-6 overflow-x-auto px-6 pb-12 snap-x snap-mandatory hide-scrollbar justify-center max-w-7xl mx-auto">
-            
+
             {/* ShowCard 1 */}
-            <div 
+            <motion.div
+              variants={itemReveal}
               onClick={() => triggerPreset(locale === 'zh' ? "基于产品资料、热点角度和品牌图片，生成一篇小红书笔记。" : "Create a Xiaohongshu note from a product sheet, trend angle, and saved brand images.")}
               className="snap-center shrink-0 w-[280px] sm:w-[320px] h-[340px] bg-slate-50 rounded-2xl border border-slate-200 shadow-xs hover:border-slate-350 hover:shadow-md transition-all p-5 cursor-pointer flex flex-col justify-between group"
             >
@@ -1468,10 +1871,11 @@ export default function Page() {
                   <div className="w-full bg-emerald-250 h-[90%] rounded-sm" />
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* ShowCard 2 */}
-            <div 
+            <motion.div
+              variants={itemReveal}
               onClick={() => triggerPreset(locale === 'zh' ? "追踪创作者经济话题，并把反复出现的信号转成活动选题。" : "Track creator economy topics and convert recurring signals into campaign angles.")}
               className="snap-center shrink-0 w-[280px] sm:w-[320px] h-[340px] bg-slate-50 rounded-2xl border border-slate-200 shadow-xs hover:border-slate-350 hover:shadow-md transition-all p-5 cursor-pointer flex flex-col justify-between group"
             >
@@ -1496,10 +1900,11 @@ export default function Page() {
                   <span>12 hits</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* ShowCard 3 */}
-            <div 
+            <motion.div
+              variants={itemReveal}
               onClick={() => triggerPreset(locale === 'zh' ? "整理一组可复用素材：产品图片、文案片段、标签和文件夹。" : "Prepare a reusable material set with product images, copy snippets, tags, and folders.")}
               className="snap-center shrink-0 w-[280px] sm:w-[320px] h-[340px] bg-slate-50 rounded-2xl border border-slate-200 shadow-xs hover:border-slate-350 hover:shadow-md transition-all p-5 cursor-pointer flex flex-col justify-between group"
             >
@@ -1526,19 +1931,19 @@ export default function Page() {
                 </div>
                 <div className="h-10 mt-3 bg-slate-50 border border-slate-100 rounded-lg" />
               </div>
-            </div>
+            </motion.div>
 
           </div>
-        </section>
+        </RevealSection>
 
         {/* SECTION 6: TRANSPARENT PRICING SCHEME */}
-        <section id="pricing" className="py-24 bg-slate-50/50 border-t border-slate-150 relative">
+        <RevealSection id="pricing" className="py-24 bg-slate-50/50 border-t border-slate-100 relative">
           <div className="max-w-6xl mx-auto px-4 sm:px-8 relative z-10">
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-              
+
               {/* Column 1: Pricing Description Information */}
-              <div className="p-8 flex flex-col justify-center bg-white rounded-2xl border border-slate-200 shadow-xs">
+              <RevealItem className="p-8 flex flex-col justify-center bg-white rounded-2xl border border-slate-200 shadow-xs">
                 <h3 className="text-3xl font-extrabold tracking-tight text-slate-900 mb-4">
                   {copy.pricingTitle}
                 </h3>
@@ -1548,15 +1953,15 @@ export default function Page() {
                 <div className="text-xs text-slate-400 font-semibold uppercase tracking-widest flex items-center gap-1.5">
                   <Check className="h-4 w-4 text-emerald-500" /> {copy.pricingHint}
                 </div>
-              </div>
+              </RevealItem>
 
               {/* Column 2: Free Tier */}
-              <div className="p-8 bg-white rounded-2xl border border-slate-200 hover:border-slate-350 transition-all shadow-xs flex flex-col relative overflow-hidden justify-between">
+              <RevealItem className="p-8 bg-white rounded-2xl border border-slate-200 hover:border-slate-350 transition-all shadow-xs flex flex-col relative overflow-hidden justify-between">
                 <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#38BDF8]" />
                 <div>
                   <h4 className="text-lg font-bold text-slate-900 mb-1">{copy.freeTitle}</h4>
                   <p className="text-slate-400 text-xs mb-6">{copy.freeDesc}</p>
-                  
+
                   <div className="text-4xl font-extrabold text-slate-900 mb-6 font-mono">
                     $0<span className="text-sm text-slate-400 font-normal">/mo</span>
                   </div>
@@ -1574,24 +1979,24 @@ export default function Page() {
                   </ul>
                 </div>
 
-                <a 
-                  href="#product" 
+                <a
+                  href="#product"
                   className="w-full bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-900 rounded-xl py-3 text-xs font-semibold text-center transition-colors shadow-xs"
                 >
                   {copy.startCreating}
                 </a>
-              </div>
+              </RevealItem>
 
               {/* Column 3: Pro Paid Tier */}
-              <div className="p-8 bg-white rounded-2xl border-2 border-slate-900 hover:shadow-lg transition-all shadow-sm flex flex-col relative overflow-hidden justify-between">
+              <RevealItem className="p-8 bg-white rounded-2xl border border-slate-200 hover:border-slate-350 hover:shadow-lg transition-all shadow-sm flex flex-col relative overflow-hidden justify-between">
                 <div className="absolute top-3 right-3 bg-slate-900 text-white text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                   {copy.popular}
                 </div>
-                
+
                 <div>
                   <h4 className="text-lg font-bold text-slate-900 mb-1">{copy.teamTitle}</h4>
                   <p className="text-slate-400 text-xs mb-6">{copy.teamDesc}</p>
-                  
+
                   <div className="text-4xl font-extrabold text-slate-900 mb-6 font-mono">
                     $20<span className="text-sm text-slate-400 font-normal">/mo</span>
                   </div>
@@ -1612,18 +2017,18 @@ export default function Page() {
                   </ul>
                 </div>
 
-                <a 
-                  href="#product" 
+                <a
+                  href="#product"
                   className="w-full bg-slate-900 hover:bg-slate-800 text-white rounded-xl py-3 text-xs font-semibold text-center transition-colors shadow-sm"
                 >
                   {copy.upgradeTeam}
                 </a>
-              </div>
+              </RevealItem>
 
             </div>
 
             {/* Bottom Enterprise Row */}
-            <div className="mt-8 bg-white rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between border border-slate-200 shadow-xs relative overflow-hidden">
+            <RevealItem className="mt-8 bg-white rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between border border-slate-200 shadow-xs relative overflow-hidden">
               <div className="absolute inset-0 bg-[#38BDF8]/2 pointer-events-none -z-10" />
               <div>
                 <h4 className="font-bold text-lg text-slate-900 mb-1">{copy.enterpriseTitle}</h4>
@@ -1631,8 +2036,8 @@ export default function Page() {
                   {copy.enterpriseText}
                 </p>
               </div>
-              
-              <button 
+
+              <button
                 onClick={() => {
                   alert(copy.contactAlert);
                 }}
@@ -1640,27 +2045,27 @@ export default function Page() {
               >
                 {copy.contactTeam}
               </button>
-            </div>
+            </RevealItem>
 
           </div>
-        </section>
+        </RevealSection>
 
         {/* SECTION 7: INTERACTIVE ACCORDION FAQS */}
-        <section id="faq" className="py-24 bg-white border-t border-slate-200">
+        <RevealSection id="faq" className="py-24 bg-white border-t border-slate-200">
           <div className="max-w-6xl mx-auto px-4 sm:px-8 flex flex-col lg:flex-row gap-12 sm:gap-16">
-            
+
             {/* Left Header Area */}
-            <div className="lg:w-1/3">
+            <RevealItem className="lg:w-1/3">
               <h2 className="text-4xl font-extrabold tracking-tight text-slate-900 leading-tight sticky top-28">
                 {copy.faqTitle}
               </h2>
               <p className="text-slate-400 text-xs mt-4 leading-relaxed max-w-xs">
                 {copy.faqIntro}
               </p>
-            </div>
+            </RevealItem>
 
             {/* Right Accordion Questions list */}
-            <div className="lg:w-2/3 flex flex-col divide-y divide-slate-150">
+            <RevealItem className="lg:w-2/3 flex flex-col divide-y divide-slate-150">
               {faqItems.map((faq, idx) => {
                 const isOpen = openFaqIndex === idx;
                 return (
@@ -1675,7 +2080,7 @@ export default function Page() {
                         {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                       </span>
                     </button>
-                    
+
                     <AnimatePresence initial={false}>
                       {isOpen && (
                         <motion.div
@@ -1694,45 +2099,45 @@ export default function Page() {
                   </div>
                 );
               })}
-            </div>
+            </RevealItem>
 
           </div>
-        </section>
+        </RevealSection>
 
         {/* SECTION 8: FINAL CTA INTEGRATIVE CARD WITH PARTICLES */}
-        <section className="py-28 px-4 sm:px-8 relative overflow-hidden flex flex-col items-center justify-center min-h-[55vh] border-t border-slate-200 bg-slate-900 text-white">
-          
+        <RevealSection className="py-28 px-4 sm:px-8 relative overflow-hidden flex flex-col items-center justify-center min-h-[55vh] border-t border-slate-200 bg-slate-900 text-white">
+
           {/* Cosmic background shapes */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,#1e1b4b_0%,transparent_60%)] pointer-events-none" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,#311042_0%,transparent_60%)] pointer-events-none" />
 
-          <div className="relative z-10 text-center max-w-2xl mx-auto space-y-8 px-4">
+          <RevealItem className="relative z-10 text-center max-w-2xl mx-auto space-y-8 px-4">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.1]">
               {copy.finalTitle}
             </h2>
-            
+
             <p className="text-slate-450 text-sm sm:text-base text-slate-405 leading-relaxed max-w-lg mx-auto">
               {copy.finalText}
             </p>
 
             <div className="pt-4">
-              <a 
+              <a
                 href="#horizon-root"
                 className="bg-white text-slate-900 border border-slate-200 hover:bg-slate-50 font-bold px-7 py-3 rounded-full hover:scale-105 active:scale-95 transition-all shadow-md inline-flex items-center gap-2"
               >
                 {copy.goBrief} <ArrowUp className="h-4 w-4 text-orange-500 font-bold" />
               </a>
             </div>
-          </div>
+          </RevealItem>
 
-        </section>
+        </RevealSection>
 
       </main>
 
       {/* FOOTER NAVIGATION SUMMARY */}
       <footer className="bg-slate-950 text-slate-400 py-12 border-t border-slate-900 text-xs sm:text-sm">
         <div className="max-w-6xl mx-auto px-4 sm:px-8 flex flex-col md:flex-row justify-between items-center gap-8">
-          
+
           {/* Logo item */}
           <div className="flex items-center gap-2 text-white">
             <Image

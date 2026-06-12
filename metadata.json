@@ -2,5 +2,5 @@
   "name": "Genie Maker",
   "description": "An AI creation workspace for content operations, trend tracking, material libraries, and publishing preparation",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": []
 }

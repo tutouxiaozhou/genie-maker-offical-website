@@ -1,6 +1,12 @@
 import type {NextConfig} from 'next';
 
+const isDevServer = process.env.NODE_ENV === 'development';
+const useStandaloneOutput = process.env.NEXT_OUTPUT_STANDALONE === 'true';
+
 const nextConfig: NextConfig = {
+  // Keep dev and production artifacts separate so `next build` cannot leave
+  // a running dev server with a half-written `.next` directory.
+  distDir: isDevServer ? '.next-dev' : '.next',
   reactStrictMode: true,
   eslint: {
     ignoreDuringBuilds: true,
@@ -19,7 +25,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  output: 'standalone',
+  ...(useStandaloneOutput ? {output: 'standalone' as const} : {}),
   transpilePackages: ['motion'],
   webpack: (config, {dev}) => {
     // HMR is disabled in AI Studio via DISABLE_HMR env var.

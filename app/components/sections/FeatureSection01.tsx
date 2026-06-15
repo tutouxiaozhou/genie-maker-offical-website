@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
 import type { Locale } from '../../data/types';
 import { UI_COPY } from '../../data/copy';
 import { RevealSection, RevealItem } from '../shared/RevealSection';
@@ -27,12 +26,6 @@ export default function FeatureSection01({ locale }: FeatureSection01Props) {
           <p className="text-slate-600 text-sm leading-relaxed mb-8 max-w-md">
             {copy.featureText}
           </p>
-          <a
-            href="#demo"
-            className="bg-white/90 border border-slate-200 text-slate-900 text-xs font-bold py-3 px-6 rounded-xl hover:bg-slate-50 transition-colors w-fit shadow-xs inline-flex items-center gap-1.5"
-          >
-            {copy.goCreator} <ArrowRight className="h-3.5 w-3.5 text-orange-500" />
-          </a>
         </div>
 
         {/* Interactive Tab Frame */}
@@ -87,8 +80,8 @@ export default function FeatureSection01({ locale }: FeatureSection01Props) {
                 <span className="text-2xs bg-slate-100 text-indigo-700 font-bold px-2 py-0.5 rounded">{copy.conceptTag}</span>
                 <h5 className="font-bold text-slate-900 text-sm">{copy.conceptTitle}</h5>
                 <p className="text-slate-500 text-xs leading-relaxed">{copy.conceptText}</p>
-                <div className="p-2 border border-dashed border-slate-200 rounded-lg bg-slate-50 font-mono text-2xs text-slate-600">
-                  if (trend.heat &gt; 80) createDraftFromAssets();
+                <div className="rounded-lg border border-indigo-100 bg-indigo-50/60 px-3 py-2 text-xs font-semibold leading-relaxed text-slate-700">
+                  {copy.conceptAction}
                 </div>
               </div>
             )}

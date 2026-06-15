@@ -56,7 +56,6 @@ export interface UiCopy {
   featureEyebrow: string;
   featureTitle: string;
   featureText: string;
-  goCreator: string;
   agentName: string;
   agentLine: string;
   you: string;
@@ -64,6 +63,7 @@ export interface UiCopy {
   conceptTag: string;
   conceptTitle: string;
   conceptText: string;
+  conceptAction: string;
   voiceTag: string;
   voiceTitle: string;
   voiceText: string;
@@ -190,7 +190,6 @@ export const UI_COPY: Record<string, UiCopy> = {
     featureEyebrow: "01 / 04 AI CREATION CO-PILOT",
     featureTitle: "Tell Genie Maker what you want to publish...",
     featureText: "Turn campaign goals, source materials, and rough ideas into platform-ready drafts, storyboards, scripts, and reusable content assets.",
-    goCreator: "Go to Creator",
     agentName: "GENIE AGENT",
     agentLine: "Let's turn this product brief into a sharper social post. Should we focus on value or scene?",
     you: "YOU",
@@ -198,6 +197,7 @@ export const UI_COPY: Record<string, UiCopy> = {
     conceptTag: "CONTENT CORE",
     conceptTitle: "Trend-To-Draft Workflow",
     conceptText: "Combine tracked topics, saved references, and platform rules into a draft that is ready for review.",
+    conceptAction: "When a high-heat topic is found, Genie organizes reference materials and generates a review-ready draft.",
     voiceTag: "COPY CHANNELS",
     voiceTitle: "Multi-Platform Adaptation",
     voiceText: "\"One content idea can become a Xiaohongshu note, Douyin script, WeChat post, or X thread with platform-aware structure.\"",
@@ -322,7 +322,6 @@ export const UI_COPY: Record<string, UiCopy> = {
     featureEyebrow: "01 / 04 AI 创作搭档",
     featureTitle: "告诉 Genie Maker 你想发布什么...",
     featureText: "把营销目标、来源素材和粗略想法转成适配平台的草稿、分镜、脚本和可复用内容资产。",
-    goCreator: "进入创作器",
     agentName: "GENIE 智能体",
     agentLine: "我来把这份产品简报改成更有吸引力的社媒内容。要突出价值点还是使用场景？",
     you: "你",
@@ -330,6 +329,7 @@ export const UI_COPY: Record<string, UiCopy> = {
     conceptTag: "内容核心",
     conceptTitle: "热点到草稿工作流",
     conceptText: "把追踪话题、已保存参考和平台规则组合成一篇可审核草稿。",
+    conceptAction: "发现高热度话题后，自动整理参考素材，生成一篇可审核草稿。",
     voiceTag: "文案渠道",
     voiceTitle: "多平台适配",
     voiceText: "\"一个内容想法可以变成小红书笔记、抖音脚本、微信公众号文章或 X 线程，并保留平台结构。\"",
@@ -387,7 +387,7 @@ export const UI_COPY: Record<string, UiCopy> = {
     faqIntro: "想了解 AI 创作、素材库、热点追踪或社媒发布工作流？可以随时联系 Genie Maker 团队。",
     finalTitle: "今天要创作什么？",
     finalText: "准备好把想法、热点或产品简报变成可发布内容了吗？回到创作画布，试一条工作流。",
-    goBrief: "回到简报",
+    goBrief: "开始创作",
     footerBrand: "Genie Maker 平台",
     privacy: "隐私政策",
     terms: "服务条款",

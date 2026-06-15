@@ -13,11 +13,11 @@ export default function Footer({ locale }: FooterProps) {
   const copy = UI_COPY[locale];
 
   return (
-    <footer className="bg-slate-950 text-slate-400 py-12 border-t border-slate-900 text-xs sm:text-sm">
+    <footer className="text-slate-600 py-12 text-xs sm:text-sm">
       <div className="max-w-6xl mx-auto px-4 sm:px-8 flex flex-col md:flex-row justify-between items-center gap-8">
 
         {/* Logo */}
-        <div className="flex items-center gap-2 text-white">
+        <div className="flex items-center gap-2 text-slate-950">
           <Image
             src="/logo.png"
             alt="Genie Maker logo"
@@ -25,16 +25,16 @@ export default function Footer({ locale }: FooterProps) {
             height={28}
             className="h-7 w-7 object-contain"
           />
-          <span className="font-bold tracking-tight text-slate-100">{copy.footerBrand}</span>
+          <span className="font-bold tracking-tight text-slate-900">{copy.footerBrand}</span>
         </div>
 
         {/* Links */}
-        <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400">
-          <a href="#" className="hover:text-white transition-colors">{copy.privacy}</a>
-          <a href="#" className="hover:text-white transition-colors">{copy.terms}</a>
-          <a href="#" className="hover:text-white transition-colors">{copy.security}</a>
-          <a href="#" className="hover:text-white transition-colors">{copy.status}</a>
-          <a href="#" className="hover:text-white transition-colors">{copy.support}</a>
+        <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-slate-600">
+          <a href="#" className="hover:text-slate-950 transition-colors">{copy.privacy}</a>
+          <a href="#" className="hover:text-slate-950 transition-colors">{copy.terms}</a>
+          <a href="#" className="hover:text-slate-950 transition-colors">{copy.security}</a>
+          <a href="#" className="hover:text-slate-950 transition-colors">{copy.status}</a>
+          <a href="#" className="hover:text-slate-950 transition-colors">{copy.support}</a>
         </div>
 
         {/* Copyright */}

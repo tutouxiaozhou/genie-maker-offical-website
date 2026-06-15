@@ -14,13 +14,15 @@ import PricingSection from '@/app/components/sections/PricingSection';
 import FaqSection from '@/app/components/sections/FaqSection';
 import FinalCtaSection from '@/app/components/sections/FinalCtaSection';
 
-export default function Page() {
-  const [locale, setLocale] = useState<Locale>('zh');
+interface LocalizedHomePageProps {
+  locale: Locale;
+}
+
+export default function LocalizedHomePage({ locale }: LocalizedHomePageProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeNavId, setActiveNavId] = useState<NavSectionId>('product');
   const [promptInput, setPromptInput] = useState('');
 
-  // Demo generation state
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationStage, setGenerationStage] = useState(4); // 1=analyzing, 2=thinking, 3=workbench, 4=done
   const [activeDemoId, setActiveDemoId] = useState<DemoPresetId>('rewrite');
@@ -28,7 +30,6 @@ export default function Page() {
 
   const pipelineRef = useRef<HTMLDivElement>(null);
 
-  // Scroll-driven nav highlight
   useEffect(() => {
     const updateActiveNav = () => {
       const scrollAnchor = window.scrollY + 150;
@@ -45,7 +46,6 @@ export default function Page() {
     return () => window.removeEventListener('scroll', updateActiveNav);
   }, []);
 
-  // Demo animation timeline
   useEffect(() => {
     if (demoRunKey === 0) return;
 
@@ -138,7 +138,6 @@ export default function Page() {
 
       <Header
         locale={locale}
-        setLocale={setLocale}
         activeNavId={activeNavId}
         mobileMenuOpen={mobileMenuOpen}
         setMobileMenuOpen={setMobileMenuOpen}

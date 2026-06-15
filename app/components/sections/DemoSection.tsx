@@ -7,6 +7,7 @@ import {
   Plus, ArrowUp, Sparkles, X
 } from 'lucide-react';
 import type { Locale, DemoPresetId } from '../../data/types';
+import { UI_COPY } from '../../data/copy';
 import { DEMO_SCRIPTS, DEMO_SCRIPTS_ZH, FALLBACK_DESIGNS, FALLBACK_DESIGNS_ZH } from '../../data/demos';
 import { RevealItem, revealEase } from '../shared/RevealSection';
 
@@ -27,6 +28,7 @@ export default function DemoSection({
   activeDemoId,
   demoRunKey,
 }: DemoSectionProps) {
+  const copy = UI_COPY[locale];
   const demoScripts = locale === 'zh' ? DEMO_SCRIPTS_ZH : DEMO_SCRIPTS;
   const fallbackDesigns = locale === 'zh' ? FALLBACK_DESIGNS_ZH : FALLBACK_DESIGNS;
   const activeDemo = demoScripts[activeDemoId];
@@ -105,7 +107,7 @@ export default function DemoSection({
                     </div>
                   </div>
                   <span className="rounded-md bg-slate-100 px-2 py-1 text-2xs font-bold text-slate-500">
-                    {demoComplete ? 'DONE' : 'LIVE'}
+                    {demoComplete ? copy.demoStatusDone : copy.demoStatusLive}
                   </span>
                 </div>
 

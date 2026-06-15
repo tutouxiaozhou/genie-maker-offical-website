@@ -74,7 +74,7 @@ export default function PricingSection({ locale }: PricingSectionProps) {
                 <h4 className="text-2xl sm:text-3xl font-semibold tracking-tight text-slate-950 mb-2">{copy.freeTitle}</h4>
                 <p className="text-slate-500 text-sm mb-6">{copy.freeDesc}</p>
                 <div className="text-5xl font-semibold tracking-tight text-slate-950 mb-8">
-                  $0<span className="text-base text-slate-500 font-medium">/mo</span>
+                  $0<span className="text-base text-slate-500 font-medium">{copy.pricingPeriod}</span>
                 </div>
                 <ul className="space-y-4 mb-8 text-sm text-slate-600 font-semibold">
                   <li className="flex items-center gap-3"><Check className="h-4 w-4 text-[#ff6b57] shrink-0" /> {copy.free1}</li>
@@ -114,7 +114,7 @@ export default function PricingSection({ locale }: PricingSectionProps) {
                 <h4 className="text-2xl sm:text-3xl font-semibold tracking-tight text-slate-950 mb-2 pr-24">{copy.teamTitle}</h4>
                 <p className="text-slate-500 text-sm mb-6">{copy.teamDesc}</p>
                 <div className="text-5xl font-semibold tracking-tight text-slate-950 mb-8">
-                  $20<span className="text-base text-slate-500 font-medium">/mo</span>
+                  $20<span className="text-base text-slate-500 font-medium">{copy.pricingPeriod}</span>
                 </div>
                 <ul className="space-y-4 mb-8 text-sm text-slate-600 font-semibold">
                   <li className="flex items-center gap-3"><Check className="h-4 w-4 text-slate-950 shrink-0" /> {copy.team1}</li>

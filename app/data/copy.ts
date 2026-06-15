@@ -1,3 +1,5 @@
+import type { Locale } from './types';
+
 export interface UiCopy {
   navProduct: string;
   navDemo: string;
@@ -10,6 +12,13 @@ export interface UiCopy {
   heroSubtitle: string;
   placeholder: string;
   languageLabel: string;
+  tabChat: string;
+  tabIdea: string;
+  tabNarration: string;
+  demoStatusDone: string;
+  demoStatusLive: string;
+  pricingPeriod: string;
+  signalHits: string;
   newBadge: string;
   demoIdleTitle: string;
   demoRunningTitle: string;
@@ -131,7 +140,7 @@ export interface UiCopy {
   copyright: string;
 }
 
-export const UI_COPY: Record<string, UiCopy> = {
+export const UI_COPY: Record<Locale, UiCopy> = {
   en: {
     navProduct: "Product",
     navDemo: "Creation Demo",
@@ -144,6 +153,13 @@ export const UI_COPY: Record<string, UiCopy> = {
     heroSubtitle: "Genie Maker helps content teams turn trends, materials, and ideas into publishable social posts with an AI creation workspace.",
     placeholder: "Describe the content you want to create. E.g., 'Turn this product sheet into a Xiaohongshu note with a strong hook...'",
     languageLabel: "Switch language",
+    tabChat: "Chat",
+    tabIdea: "Idea",
+    tabNarration: "Narration",
+    demoStatusDone: "Done",
+    demoStatusLive: "Live",
+    pricingPeriod: "/mo",
+    signalHits: "12 hits",
     newBadge: "NEW",
     demoIdleTitle: "Creation Canvas Sandbox",
     demoRunningTitle: "Genie Creation Engine",
@@ -276,6 +292,13 @@ export const UI_COPY: Record<string, UiCopy> = {
     heroSubtitle: "Genie Maker 帮内容团队把热点、素材和想法转成可发布的社媒内容，并沉淀到统一的 AI 创作工作台。",
     placeholder: "描述你想创作的内容，例如：\"把这份产品资料改写成一篇小红书笔记...\"",
     languageLabel: "切换语言",
+    tabChat: "对话",
+    tabIdea: "选题",
+    tabNarration: "口播",
+    demoStatusDone: "完成",
+    demoStatusLive: "实时",
+    pricingPeriod: "/月",
+    signalHits: "12 次命中",
     newBadge: "最新",
     demoIdleTitle: "创作画布沙盒",
     demoRunningTitle: "Genie 创作引擎",

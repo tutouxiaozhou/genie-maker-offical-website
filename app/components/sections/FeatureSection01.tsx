@@ -12,6 +12,11 @@ interface FeatureSection01Props {
 export default function FeatureSection01({ locale }: FeatureSection01Props) {
   const copy = UI_COPY[locale];
   const [activeTabFeature, setActiveTabFeature] = useState<'chat' | 'idea' | 'narration'>('chat');
+  const featureTabs = [
+    { id: 'chat', label: copy.tabChat },
+    { id: 'idea', label: copy.tabIdea },
+    { id: 'narration', label: copy.tabNarration },
+  ] as const;
 
   return (
     <RevealSection id="features" className="py-20 px-4 sm:px-8 md:px-16 relative">
@@ -35,17 +40,17 @@ export default function FeatureSection01({ locale }: FeatureSection01Props) {
           {/* Tabs Switcher */}
           <div className="flex items-center justify-center mb-6">
             <div className="p-1 rounded-full border border-slate-200/80 bg-white shadow-xs inline-flex gap-1">
-              {(['chat', 'idea', 'narration'] as const).map((tab) => (
+              {featureTabs.map((tab) => (
                 <button
-                  key={tab}
-                  onClick={() => setActiveTabFeature(tab)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all capitalize cursor-pointer ${
-                    activeTabFeature === tab
+                  key={tab.id}
+                  onClick={() => setActiveTabFeature(tab.id)}
+                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                    activeTabFeature === tab.id
                       ? 'bg-slate-900 text-white shadow-xs'
                       : 'text-slate-500 hover:text-slate-900'
                   }`}
                 >
-                  {tab}
+                  {tab.label}
                 </button>
               ))}
             </div>

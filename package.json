@@ -6,7 +6,8 @@
     "dev": "next dev --webpack -p 3001",
     "build": "next build --webpack",
     "start": "next start -p 3001",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test:i18n": "node tests/i18n-routing.test.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",

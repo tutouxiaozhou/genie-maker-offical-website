@@ -78,7 +78,7 @@ export default function ShowcaseSection({ locale, onTriggerPreset }: ShowcaseSec
             </div>
             <div className="flex justify-between items-center text-[11px] text-teal-600 font-bold bg-teal-50 px-2 py-1.5 rounded-lg border border-teal-100">
               <span>{copy.signalVerified}</span>
-              <span>12 hits</span>
+              <span>{copy.signalHits}</span>
             </div>
           </div>
         </motion.div>

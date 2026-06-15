@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import { motion } from 'motion/react';
 import { Plus, ArrowUp } from 'lucide-react';
 import type { Locale, DemoPresetId } from '../../data/types';

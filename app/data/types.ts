@@ -1,5 +1,6 @@
 export type DemoPresetId = 'rewrite' | 'shortVideo' | 'trends';
-export type Locale = 'zh' | 'en';
+export const locales = ['zh', 'en'] as const;
+export type Locale = (typeof locales)[number];
 
 export const navSectionIds = ['product', 'demo', 'features', 'pricing', 'faq'] as const;
 export type NavSectionId = (typeof navSectionIds)[number];

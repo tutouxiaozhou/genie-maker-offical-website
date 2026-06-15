@@ -6,10 +6,10 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Languages, Menu, X } from 'lucide-react';
 import type { Locale, NavSectionId } from '../../data/types';
 import { UI_COPY } from '../../data/copy';
+import { getNextLocale } from '../../data/i18n';
 
 interface HeaderProps {
   locale: Locale;
-  setLocale: (l: Locale) => void;
   activeNavId: NavSectionId;
   mobileMenuOpen: boolean;
   setMobileMenuOpen: (open: boolean) => void;
@@ -26,13 +26,13 @@ const navItemsConfig: { id: NavSectionId; key: keyof (typeof UI_COPY)['en'] }[] 
 
 export default function Header({
   locale,
-  setLocale,
   activeNavId,
   mobileMenuOpen,
   setMobileMenuOpen,
   scrollToSection,
 }: HeaderProps) {
   const copy = UI_COPY[locale];
+  const languageHref = `/${getNextLocale(locale)}`;
   const navItems = navItemsConfig.map((item) => ({
     id: item.id,
     label: copy[item.key],
@@ -89,14 +89,14 @@ export default function Header({
 
         {/* Nav Right CTAs */}
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => setLocale(locale === 'zh' ? 'en' : 'zh')}
+          <a
+            href={languageHref}
             className="h-9 w-9 flex items-center justify-center rounded-full text-slate-500 hover:text-primary transition-colors hover:bg-slate-100"
             aria-label={copy.languageLabel}
             title={copy.languageLabel}
           >
             <Languages className="h-4 w-4" />
-          </button>
+          </a>
           <a
             href="#demo"
             onClick={(event) => scrollToSection(event, 'demo')}

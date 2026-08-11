@@ -6,28 +6,18 @@ import {
   Loader2, CheckCircle2, Check, ChevronDown, LayoutGrid,
   Plus, ArrowUp, Sparkles, X
 } from 'lucide-react';
-import type { Locale, DemoPresetId } from '../../data/types';
+import type { Locale } from '../../data/types';
 import { UI_COPY } from '../../data/copy';
 import { DEMO_SCRIPTS, DEMO_SCRIPTS_ZH, FALLBACK_DESIGNS, FALLBACK_DESIGNS_ZH } from '../../data/demos';
 import { RevealItem, revealEase } from '../shared/RevealSection';
+import { useHomePageInteraction } from '../HomePageInteractionProvider';
 
 interface DemoSectionProps {
   locale: Locale;
-  pipelineRef: React.RefObject<HTMLDivElement | null>;
-  isGenerating: boolean;
-  generationStage: number;
-  activeDemoId: DemoPresetId;
-  demoRunKey: number;
 }
 
-export default function DemoSection({
-  locale,
-  pipelineRef,
-  isGenerating,
-  generationStage,
-  activeDemoId,
-  demoRunKey,
-}: DemoSectionProps) {
+export default function DemoSection({ locale }: DemoSectionProps) {
+  const { activeDemoId, demoRunKey, generationStage, isGenerating, pipelineRef } = useHomePageInteraction();
   const copy = UI_COPY[locale];
   const demoScripts = locale === 'zh' ? DEMO_SCRIPTS_ZH : DEMO_SCRIPTS;
   const fallbackDesigns = locale === 'zh' ? FALLBACK_DESIGNS_ZH : FALLBACK_DESIGNS;

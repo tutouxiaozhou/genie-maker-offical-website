@@ -1,6 +1,3 @@
-'use client';
-
-import React from 'react';
 import { Server, ShieldCheck, Globe, CheckCircle2 } from 'lucide-react';
 import type { Locale } from '../../data/types';
 import { UI_COPY } from '../../data/copy';

@@ -3,19 +3,19 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Plus, ArrowUp } from 'lucide-react';
-import type { Locale, DemoPresetId } from '../../data/types';
+import type { Locale } from '../../data/types';
 import { UI_COPY } from '../../data/copy';
 import { PRESETS, PRESETS_ZH } from '../../data/presets';
+import { useHomePageInteraction } from '../HomePageInteractionProvider';
 
 interface HeroSectionProps {
   locale: Locale;
-  promptInput: string;
-  onTriggerPreset: (preset: string | { id?: DemoPresetId; prompt: string }) => void;
 }
 
-export default function HeroSection({ locale, promptInput, onTriggerPreset }: HeroSectionProps) {
+export default function HeroSection({ locale }: HeroSectionProps) {
   const copy = UI_COPY[locale];
   const presets = locale === 'zh' ? PRESETS_ZH : PRESETS;
+  const { promptInput, triggerPreset } = useHomePageInteraction();
 
   return (
     <section id="product" className="relative pt-40 pb-20 px-4 sm:px-8 md:px-16 min-h-[95vh] flex flex-col items-center justify-center text-center overflow-hidden">
@@ -23,21 +23,6 @@ export default function HeroSection({ locale, promptInput, onTriggerPreset }: He
       {/* Aesthetic Fluid Backdrop Shapes */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#38BDF8]/15 via-[#C084FC]/10 to-transparent -z-10" />
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-r from-orange-400/10 to-indigo-500/15 rounded-full blur-[110px] -z-10" />
-
-      {/* New Event Alert Badge */}
-      <motion.div
-        initial={{ opacity: 0, y: -15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="inline-flex items-center gap-2 bg-white/60 border border-slate-200/50 rounded-full px-4 py-1.5 mb-7 shadow-sm backdrop-blur"
-      >
-        <span className="bg-orange-100 text-orange-600 font-bold text-2xs uppercase tracking-wider px-2 py-0.5 rounded-full">
-          {copy.newBadge}
-        </span>
-        <span className="text-xs font-semibold text-slate-700">
-          {copy.badge}
-        </span>
-      </motion.div>
 
       {/* Hero Header */}
       <motion.h1
@@ -95,7 +80,7 @@ export default function HeroSection({ locale, promptInput, onTriggerPreset }: He
         {presets.map((preset, index) => (
           <button
             key={index}
-            onClick={() => onTriggerPreset(preset)}
+            onClick={() => triggerPreset(preset)}
             className="bg-white hover:bg-slate-100 text-slate-800 border border-slate-200/80 shadow-xs rounded-full px-[18px] py-1.5 text-xs font-medium hover:border-slate-300 active:scale-95 transition-all cursor-pointer select-none"
           >
             {preset.label}

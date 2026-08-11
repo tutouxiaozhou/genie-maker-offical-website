@@ -7,13 +7,10 @@ import { Languages, Menu, X } from 'lucide-react';
 import type { Locale, NavSectionId } from '../../data/types';
 import { UI_COPY } from '../../data/copy';
 import { getNextLocale } from '../../data/i18n';
+import { useHomePageInteraction } from '../HomePageInteractionProvider';
 
 interface HeaderProps {
   locale: Locale;
-  activeNavId: NavSectionId;
-  mobileMenuOpen: boolean;
-  setMobileMenuOpen: (open: boolean) => void;
-  scrollToSection: (e: React.MouseEvent<HTMLAnchorElement>, sectionId: NavSectionId) => void;
 }
 
 const navItemsConfig: { id: NavSectionId; key: keyof (typeof UI_COPY)['en'] }[] = [
@@ -24,13 +21,8 @@ const navItemsConfig: { id: NavSectionId; key: keyof (typeof UI_COPY)['en'] }[] 
   { id: 'faq', key: 'navFaq' },
 ];
 
-export default function Header({
-  locale,
-  activeNavId,
-  mobileMenuOpen,
-  setMobileMenuOpen,
-  scrollToSection,
-}: HeaderProps) {
+export default function Header({ locale }: HeaderProps) {
+  const { activeNavId, mobileMenuOpen, scrollToSection, setMobileMenuOpen } = useHomePageInteraction();
   const copy = UI_COPY[locale];
   const languageHref = `/${getNextLocale(locale)}`;
   const navItems = navItemsConfig.map((item) => ({
@@ -45,7 +37,10 @@ export default function Header({
         {/* Logo */}
         <a
           href="#product"
-          onClick={(event) => scrollToSection(event, 'product')}
+          onClick={(event) => {
+            event.preventDefault();
+            scrollToSection('product');
+          }}
           className="flex items-center gap-2.5 group"
         >
           <Image
@@ -67,7 +62,10 @@ export default function Header({
               <a
                 key={item.id}
                 href={`#${item.id}`}
-                onClick={(event) => scrollToSection(event, item.id)}
+                onClick={(event) => {
+                  event.preventDefault();
+                  scrollToSection(item.id);
+                }}
                 className={`relative rounded-full px-3.5 py-1.5 text-xs transition-colors ${
                   isActive ? 'text-slate-950' : 'text-slate-500 hover:text-primary'
                 }`}
@@ -99,7 +97,10 @@ export default function Header({
           </a>
           <a
             href="#demo"
-            onClick={(event) => scrollToSection(event, 'demo')}
+            onClick={(event) => {
+              event.preventDefault();
+              scrollToSection('demo');
+            }}
             className="bg-slate-900 text-white text-xs font-semibold px-5 py-2 rounded-full hover:bg-slate-800 active:scale-95 transition-all shadow-sm hidden sm:inline-flex"
           >
             {copy.startCta}
@@ -131,7 +132,10 @@ export default function Header({
                 <a
                   key={item.id}
                   href={`#${item.id}`}
-                  onClick={(event) => scrollToSection(event, item.id)}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    scrollToSection(item.id);
+                  }}
                   className={`relative rounded-xl px-3 py-2 font-medium transition-colors ${
                     index < navItems.length - 1 ? 'border-b border-slate-100' : ''
                   } ${isActive ? 'text-slate-950 bg-slate-100' : 'text-slate-800 hover:text-primary'}`}

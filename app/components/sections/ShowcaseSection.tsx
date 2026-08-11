@@ -2,17 +2,18 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
-import type { Locale, DemoPresetId } from '../../data/types';
+import type { Locale } from '../../data/types';
 import { UI_COPY } from '../../data/copy';
 import { RevealSection, RevealItem, itemReveal } from '../shared/RevealSection';
+import { useHomePageInteraction } from '../HomePageInteractionProvider';
 
 interface ShowcaseSectionProps {
   locale: Locale;
-  onTriggerPreset: (preset: string | { id?: DemoPresetId; prompt: string }) => void;
 }
 
-export default function ShowcaseSection({ locale, onTriggerPreset }: ShowcaseSectionProps) {
+export default function ShowcaseSection({ locale }: ShowcaseSectionProps) {
   const copy = UI_COPY[locale];
+  const { triggerPreset } = useHomePageInteraction();
 
   return (
     <RevealSection className="py-24 bg-white relative overflow-hidden border-t border-slate-200">
@@ -34,7 +35,7 @@ export default function ShowcaseSection({ locale, onTriggerPreset }: ShowcaseSec
         {/* ShowCard 1 */}
         <motion.div
           variants={itemReveal}
-          onClick={() => onTriggerPreset(locale === 'zh' ? "基于产品资料、热点角度和品牌图片，生成一篇小红书笔记。" : "Create a Xiaohongshu note from a product sheet, trend angle, and saved brand images.")}
+          onClick={() => triggerPreset(locale === 'zh' ? "基于产品资料、热点角度和品牌图片，生成一篇小红书笔记。" : "Create a Xiaohongshu note from a product sheet, trend angle, and saved brand images.")}
           className="snap-center shrink-0 w-[280px] sm:w-[320px] h-[340px] bg-slate-50 rounded-2xl border border-slate-200 shadow-xs hover:border-slate-300 hover:shadow-md transition-all p-5 cursor-pointer flex flex-col justify-between group"
         >
           <div className="space-y-3">
@@ -61,7 +62,7 @@ export default function ShowcaseSection({ locale, onTriggerPreset }: ShowcaseSec
         {/* ShowCard 2 */}
         <motion.div
           variants={itemReveal}
-          onClick={() => onTriggerPreset(locale === 'zh' ? "追踪创作者经济话题，并把反复出现的信号转成活动选题。" : "Track creator economy topics and convert recurring signals into campaign angles.")}
+          onClick={() => triggerPreset(locale === 'zh' ? "追踪创作者经济话题，并把反复出现的信号转成活动选题。" : "Track creator economy topics and convert recurring signals into campaign angles.")}
           className="snap-center shrink-0 w-[280px] sm:w-[320px] h-[340px] bg-slate-50 rounded-2xl border border-slate-200 shadow-xs hover:border-slate-300 hover:shadow-md transition-all p-5 cursor-pointer flex flex-col justify-between group"
         >
           <div className="space-y-3">
@@ -86,7 +87,7 @@ export default function ShowcaseSection({ locale, onTriggerPreset }: ShowcaseSec
         {/* ShowCard 3 */}
         <motion.div
           variants={itemReveal}
-          onClick={() => onTriggerPreset(locale === 'zh' ? "整理一组可复用素材：产品图片、文案片段、标签和文件夹。" : "Prepare a reusable material set with product images, copy snippets, tags, and folders.")}
+          onClick={() => triggerPreset(locale === 'zh' ? "整理一组可复用素材：产品图片、文案片段、标签和文件夹。" : "Prepare a reusable material set with product images, copy snippets, tags, and folders.")}
           className="snap-center shrink-0 w-[280px] sm:w-[320px] h-[340px] bg-slate-50 rounded-2xl border border-slate-200 shadow-xs hover:border-slate-300 hover:shadow-md transition-all p-5 cursor-pointer flex flex-col justify-between group"
         >
           <div className="space-y-3">

@@ -1,6 +1,3 @@
-'use client';
-
-import React from 'react';
 import { ArrowUp } from 'lucide-react';
 import type { Locale } from '../../data/types';
 import { UI_COPY } from '../../data/copy';
